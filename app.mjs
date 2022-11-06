@@ -12,6 +12,9 @@ const __dirname = path.dirname(__filename);
 
 app.set('view engine', 'hbs');
 
+const User = mongoose.model('User');
+const Leaderboard = mongoose.model('Leaderboard');
+
 //middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
@@ -48,6 +51,17 @@ app.get('/summary', (req, res) => {
 app.get('/leaderboards', (req, res) => {
     res.render('leaderboards');
 });
+
+app.get('/profile/:slug', (req, res) => {
+    User.findOne({slug: req.params.slug}).exec((err, user) => {
+      if(user && !err){
+        res.render('profile', {user: user});
+      }
+      else{
+        res.render('error', {message: 'User does not exist'});
+      }
+     });
+  });
 
 
 

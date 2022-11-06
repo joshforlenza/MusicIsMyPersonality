@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongooseSlugPlugin from 'mongoose-slug-plugin';
 
 const UserSchema = new mongoose.Schema({
     username: {type:String, unique: true, required: true},
@@ -22,6 +23,8 @@ const LeaderboardSchema = new mongoose.Schema({
   name: String,
   users: [{username: String, stat: Number, rank: Number}]
 });
+
+UserSchema.plugin(mongooseSlugPlugin,{tmpl: '<%=username%>'});
 
 mongoose.model('User', UserSchema);
 mongoose.model('Summary', SummarySchema);
