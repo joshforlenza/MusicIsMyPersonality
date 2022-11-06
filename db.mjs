@@ -1,26 +1,30 @@
-// 1ST DRAFT DATA MODEL
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-//users
-const User = new mongoose.Schema({
-  // username provided by Spotify API plugin
-  // password hash provided by Spotify API plugin
-  stats: [{type: String, percent: String}],
-  ranking: [{type: String, rank: String}],
-  summary:  { type: mongoose.Schema.Types.ObjectId, ref: 'Summary' }
-
+const UserSchema = new mongoose.Schema({
+    username: {type:String, unique: true, required: true},
+    email: {type:String, unique: true, required: true},
+    password: {type:String, unique: true, required: true},
+    // username provided by Spotify API plugin
+    // password hash provided by Spotify API plugin
+    bio: {type:String},
+    stats: [{type: String, percent: String}],
+    ranking: [{type: String, rank: String}],
+    summary:  { type: mongoose.Schema.Types.ObjectId, ref: 'Summary' }
 });
 
-//summary
-const Summary = new mongoose.Schema({
+const SummarySchema = new mongoose.Schema({
   name: String,
   description: String
 });
 
 //leaderboard
-const Leaderboard = new mongoose.Schema({
-    name: String,
-    users: [{username: String, stat: Number, rank: Number}]
+const LeaderboardSchema = new mongoose.Schema({
+  name: String,
+  users: [{username: String, stat: Number, rank: Number}]
 });
 
-// TODO: add remainder of setup for slugs, connection, registering models, etc. below
+mongoose.model('User', UserSchema);
+mongoose.model('Summary', SummarySchema);
+mongoose.model('Leaderboard', LeaderboardSchema);
+
+mongoose.connect('mongodb+srv://joshforlenza:8oOo4Kg8YptJUNPa@cluster0.8vwdo6a.mongodb.net/?retryWrites=true&w=majority');
