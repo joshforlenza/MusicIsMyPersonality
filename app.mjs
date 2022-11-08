@@ -142,6 +142,7 @@ app.get('/callback', async function(req, res) {
         function success(newUser) {
             functions.startAuthenticatedSession(req, newUser, (err) => {
                 if (!err) {
+                    console.log(req.session.user);
                     res.redirect('/');
                 } else {
                      
@@ -177,7 +178,7 @@ app.get('/leaderboards', (req, res) => {
 app.get('/profile/:slug', (req, res) => { 
     User.findOne({slug: req.params.slug}).exec((err, user) => {
       if(user && !err){
-        if(user===req.session.user){
+        if(user.username===req.session.user.username){
             res.render('profile', {user: user, currUser: true});
         }
         else{
