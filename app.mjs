@@ -6,7 +6,8 @@ import * as functions from './functions.mjs';
 import path from 'path'
 import { fileURLToPath } from 'url';
 import { URLSearchParams } from 'url';
-import { request  } from 'http';
+import { request  } from 'request';
+import cookieParser from 'cookie-parser'
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(session(sessionOptions));
 
 //cookie parser
+/*
 app.use((req,res,next) => {
     const cookie = req.get('Cookie');
     if(cookie!==undefined){
@@ -52,6 +54,8 @@ app.use((req,res,next) => {
 
     next();
 });
+*/
+app.use(cookieParser());
 
 //logging
 app.use((req,res,next) => {
