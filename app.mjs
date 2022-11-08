@@ -131,23 +131,6 @@ app.get('/callback', async function(req, res) {
         }).toString());
     } else {
         res.clearCookie(stateKey);
-        /*
-        var authOptions = {
-            url: 'https://accounts.spotify.com/api/token',
-            form: {
-            code: code,
-            redirect_uri: redirect_uri,
-            grant_type: 'authorization_code'
-            },
-            headers: {
-            'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
-            },
-            json: true
-        };
-        */
-
-        
-        //const data = functions._getToken();
         const result = await fetch('https://accounts.spotify.com/api/token', {
             method: 'POST',
             headers: {
@@ -163,6 +146,14 @@ app.get('/callback', async function(req, res) {
 
         const data = await result.json();
         console.log(data);
+        const access_token = data.access_token
+        const refresh_token = data.refesh_token
+
+        res.redirect('/#' +
+            new URLSearchParams({
+                access_token: access_token,
+                refresh_token: refresh_token
+        }).toString());
       
       /*
       request.post(authOptions, function(error, response, body) {
@@ -200,28 +191,29 @@ app.get('/callback', async function(req, res) {
     }
   });
   
-  app.get('/refresh_token', function(req, res) {
-  
+  app.get('/refresh_token', async function(req, res) {
     // requesting access token from refresh token
     var refresh_token = req.query.refresh_token;
-    var authOptions = {
-      url: 'https://accounts.spotify.com/api/token',
-      headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
-      form: {
-        grant_type: 'refresh_token',
-        refresh_token: refresh_token
-      },
-      json: true
-    };
-  
-    request.post(authOptions, function(error, response, body) {
-      if (!error && response.statusCode === 200) {
-        var access_token = body.access_token;
-        res.send({
-          'access_token': access_token
-        });
-      }
+
+    const result = await fetch('https://accounts.spotify.com/api/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded', 
+                'Authorization' : 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
+            },
+            body: new URLSearchParams({
+                grant_type: 'refresh_token',
+                refresh_token: refresh_token
+            }),
     });
+
+    const data = await result.json();
+    console.log(data);
+    const access_token = data.access_token;
+    res.send({
+        'access_token': access_token
+    });
+
 });
 
 app.get('/summary', (req, res) => {
