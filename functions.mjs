@@ -1,6 +1,8 @@
 import { URLSearchParams } from 'url';
 import fetch from 'node-fetch'
 
+const User = mongoose.model('User');
+
 export const startAuthenticatedSession = (req, user, cb) => {
     req.session.regenerate((err) => {
       if (!err) {
