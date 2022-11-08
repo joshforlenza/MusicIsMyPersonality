@@ -122,9 +122,8 @@ app.get('/callback', async function(req, res) {
     var code = req.query.code || null;
     var state = req.query.state || null;
     var storedState = req.cookies ? req.cookies[stateKey] : null;
-    //|| state !== storedState
   
-    if (state === null) {
+    if (state === null || state !== storedState) {
       res.redirect('/#' +
         new URLSearchParams({
             error: 'state_mismatch'
@@ -197,7 +196,7 @@ app.get('/callback', async function(req, res) {
   app.get('/refresh_token', async function(req, res) {
     // requesting access token from refresh token
     var refresh_token = req.query.refresh_token;
-
+    /*
     const result = await fetch('https://accounts.spotify.com/api/token', {
             method: 'POST',
             headers: {
@@ -209,8 +208,8 @@ app.get('/callback', async function(req, res) {
                 refresh_token: refresh_token
             }),
     });
-
-    const data = await result.json();
+    */
+    const data = functions.getTokenWithRefresh();
     console.log(data);
     const access_token = data.access_token;
     res.send({
