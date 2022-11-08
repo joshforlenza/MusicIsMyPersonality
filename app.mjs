@@ -131,6 +131,7 @@ app.get('/callback', async function(req, res) {
         }).toString());
     } else {
         res.clearCookie(stateKey);
+        /*
         const result = await fetch('https://accounts.spotify.com/api/token', {
             method: 'POST',
             headers: {
@@ -143,12 +144,14 @@ app.get('/callback', async function(req, res) {
                 redirect_uri: redirect_uri,
             }),
         });
-
-        const data = await result.json();
+        */
+        //const data = await result.json();
+        const data = functions.getToken();
         console.log(data);
         const access_token = data.access_token
         const refresh_token = data.refesh_token
 
+        //pass the token to the browser to make requests from there
         res.redirect('/#' +
             new URLSearchParams({
                 access_token: access_token,

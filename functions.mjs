@@ -29,22 +29,21 @@ export const generateRandomString = function(length) {
     return text;
 };
 
-export const _getToken = async () => {
-
+export const getToken = async () => {
     const result = await fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        headers: {
-            'Content-Type' : 'application/x-www-form-urlencoded', 
-            'Authorization' : 'Basic ' + Buffer.from(clientId + ':' + clientSecret, 'base64')
-        },
-        body: new URLSearchParams({
-            grant_type: 'authorization_code',
-            code: code,
-            redirect_uri: redirect_uri
-        }),
-    });
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded', 
+                'Authorization' : 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
+            },
+            body: new URLSearchParams({
+                grant_type: 'authorization_code',
+                code: code,
+                redirect_uri: redirect_uri,
+            }),
+        });
 
     const data = await result.json();
-    return data.access_token;
+    return data;
 }
 
