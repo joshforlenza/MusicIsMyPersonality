@@ -5,7 +5,7 @@ import session from 'express-session';
 import * as functions from './functions.mjs';
 import path from 'path'
 import { fileURLToPath } from 'url';
-import querystring from 'querystring';
+import { URLSearchParams } from 'url';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 
 const client_id = 'bd7f033f5d294be08b9547187c9ad500'; // Your client id
 const client_secret = 'bd7f033f5d294be08b9547187c9ad500'; // Your secret
-const redirect_uri = 'https://final-project-joshforlenza-production.up.railway.app/'; // Your redirect uri
+const redirect_uri = 'https://final-project-joshforlenza-production.up.railway.app/callback'; // Your redirect uri
 
 const sessionOptions = {
     secret: 'I love Spotify',
@@ -101,7 +101,7 @@ app.get('/login', function(req, res) {
     // your application requests authorization
     const scope = 'user-read-private user-read-email';
     res.redirect('https://accounts.spotify.com/authorize?' +
-      querystring.stringify({
+      URLSearchParams.stringify({
         response_type: 'code',
         client_id: client_id,
         scope: scope,
