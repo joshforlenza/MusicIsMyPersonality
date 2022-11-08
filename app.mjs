@@ -15,7 +15,8 @@ const __dirname = path.dirname(__filename);
 
 const client_id = 'bd7f033f5d294be08b9547187c9ad500'; // Your client id
 const client_secret = 'bd7f033f5d294be08b9547187c9ad500'; // Your secret
-const redirect_uri = 'https://final-project-joshforlenza-production.up.railway.app/callback/'; // Your redirect uri
+//const redirect_uri = 'https://final-project-joshforlenza-production.up.railway.app/callback/'; // Your redirect uri
+const redirect_uri = 'localhost:3000/callback/';
 
 const sessionOptions = {
     secret: 'I love Spotify',
@@ -115,7 +116,7 @@ app.get('/login', function(req, res) {
 });
 
 
-app.get('/callback', function(req, res) {
+app.get('/callback', async function(req, res) {
     // your application requests refresh and access tokens
     // after checking the state parameter
   
@@ -143,8 +144,23 @@ app.get('/callback', function(req, res) {
             },
             json: true
         };
+
+        const response = await fetch('https://accounts.spotify.com/api/token' ,
+        {
+            method: 'post',
+            body: {
+                code: code,
+                redirect_uri: redirect_uri,
+                grant_type: 'authorization_code'
+            },
+            headers: {
+                'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+            },
+        });
+        const data = await response.json();
+        console.log(data);
       
-      
+      /*
       request.post(authOptions, function(error, response, body) {
         if (!error && response.statusCode === 200) {
   
@@ -175,6 +191,7 @@ app.get('/callback', function(req, res) {
             }).toString());
         }
       });
+      */
 
     }
   });
