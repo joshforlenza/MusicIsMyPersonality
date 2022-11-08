@@ -66,7 +66,7 @@ export const getTokenWithRefresh = async (client_id, client_secret, refresh_toke
 }
 
 export const useAccessToken = async (url, access_token) => {
-    const response = await fetch(url, {
+    const result = await fetch(url, {
         method: 'GET',
         headers: {
             'Authorization' : { 'Authorization': 'Bearer ' + access_token }
