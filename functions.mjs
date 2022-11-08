@@ -32,17 +32,17 @@ export const generateRandomString = function(length) {
 
 export const getToken = async (client_id, client_secret, code, redirect_uri) => {
     const result = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded', 
-                'Authorization' : 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
-            },
-            body: new URLSearchParams({
-                grant_type: 'authorization_code',
-                code: code,
-                redirect_uri: redirect_uri,
-            }),
-        });
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/x-www-form-urlencoded', 
+            'Authorization' : 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
+        },
+        body: new URLSearchParams({
+            grant_type: 'authorization_code',
+            code: code,
+            redirect_uri: redirect_uri,
+        }),
+    });
 
     const data = await result.json();
     return data;
@@ -50,15 +50,27 @@ export const getToken = async (client_id, client_secret, code, redirect_uri) => 
 
 export const getTokenWithRefresh = async (client_id, client_secret, refresh_token) => {
     const result = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded', 
-                'Authorization' : 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
-            },
-            body: new URLSearchParams({
-                grant_type: 'refresh_token',
-                refresh_token: refresh_token
-            }),
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/x-www-form-urlencoded', 
+            'Authorization' : 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
+        },
+        body: new URLSearchParams({
+            grant_type: 'refresh_token',
+            refresh_token: refresh_token
+        }),
+    });
+
+    const data = await result.json();
+    return data;
+}
+
+export const useAccessToken = async (url, access_token) => {
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization' : { 'Authorization': 'Bearer ' + access_token }
+        }
     });
 
     const data = await result.json();
