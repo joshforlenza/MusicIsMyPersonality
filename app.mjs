@@ -148,12 +148,12 @@ app.get('/callback', async function(req, res) {
         {
             method: 'post',
             body: {
+                grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: redirect_uri,
-                grant_type: 'authorization_code'
+                redirect_uri: redirect_uri
             },
             headers: {
-                'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+                'Authorization': 'Basic ' + (Buffer.from(client_id + ':' + client_secret).toString('base64'))
             },
         });
         const data = await response.json();
