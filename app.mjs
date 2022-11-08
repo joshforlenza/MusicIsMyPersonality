@@ -147,7 +147,21 @@ app.get('/callback', async function(req, res) {
         */
 
         
-        const data = functions._getToken();
+        //const data = functions._getToken();
+        const result = await fetch('https://accounts.spotify.com/api/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/x-www-form-urlencoded', 
+                'Authorization' : 'Basic ' + Buffer.from(clientId + ':' + clientSecret, 'base64')
+            },
+            body: new URLSearchParams({
+                grant_type: 'authorization_code',
+                code: code,
+                redirect_uri: redirect_uri
+            }),
+        });
+
+        const data = await result.json();
         console.log(data);
       
       /*
