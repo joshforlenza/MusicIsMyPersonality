@@ -58,17 +58,11 @@ app.use((req,res,next) => {
 });
 
 // require authenticated user for /summary
-app.use(functions.authRequired(['/summary']));
+app.use(functions.authRequired(['/summary', '/edit-profile']));
 
 // make {{user}} variable available for all paths
 app.use((req, res, next) => {
     res.locals.user = req.session.user;
-    next();
-});
-
-// logging
-app.use((req, res, next) => {
-    console.log(req.method, req.path, req.body);
     next();
 });
 
@@ -129,7 +123,7 @@ app.get('/callback', async function(req, res) {
         console.log(userData);
         functions.login(userData, refresh_token, success);
     }
-});
+  });
   
 app.get('/refresh_token', async function(req, res) {
     // requesting access token from refresh token
@@ -140,6 +134,7 @@ app.get('/refresh_token', async function(req, res) {
     res.send({
         'access_token': access_token
     });
+
 });
 
 app.get('/summary', (req, res) => {
@@ -169,9 +164,12 @@ app.get('/profile/:slug', (req, res) => {
 });
 
 app.get('/edit-profile', (req, res) => {
-    //for final version edit-profile page can only be accessed by
-    //logged in users
-    res.render('edit-profile');
+    if(req.session.user){
+        res.render('edit-profile');
+    }
+    else{
+        res.redirect("/");
+    }
 });
 
 app.post('/edit-profile', (req, res) => {
