@@ -140,11 +140,11 @@ app.get('/callback', async function(req, res) {
 
         //create user doc
         function success(newUser) {
-            auth.startAuthenticatedSession(req, newUser, (err) => {
+            functions.startAuthenticatedSession(req, newUser, (err) => {
                 if (!err) {
                     res.redirect('/');
                 } else {
-                    res.render('error', {message: 'err authing???'}); 
+                     
                 }
             });
         }
