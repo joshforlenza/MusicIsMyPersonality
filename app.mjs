@@ -214,7 +214,7 @@ app.post('/edit-profile', (req, res) => {
                             console.error(err);
                           }
                         else{
-                            res.render("Saved");
+                            res.render('edit-profile', {message: "Saved"});
                         }
                     });
                 }
