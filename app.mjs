@@ -135,6 +135,7 @@ app.get('/callback', async function(req, res) {
         const data = await functions.getToken(client_id, client_secret, code, redirect_uri);
         console.log(data);
         const access_token = data.access_token
+        console.log(access_token);
         const refresh_token = data.refesh_token
 
         //create user doc
