@@ -129,9 +129,9 @@ app.get('/callback', async function(req, res) {
         console.log(userData);
         functions.login(userData, refresh_token, success);
     }
-  });
+});
   
-  app.get('/refresh_token', async function(req, res) {
+app.get('/refresh_token', async function(req, res) {
     // requesting access token from refresh token
     const refresh_token = req.query.refresh_token;
     const data = await functions.getTokenWithRefresh(client_id, client_secret, refresh_token);
@@ -140,7 +140,6 @@ app.get('/callback', async function(req, res) {
     res.send({
         'access_token': access_token
     });
-
 });
 
 app.get('/summary', (req, res) => {
