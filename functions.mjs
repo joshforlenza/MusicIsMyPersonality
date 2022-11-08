@@ -17,7 +17,7 @@ export const startAuthenticatedSession = (req, user, cb) => {
   
 export const endAuthenticatedSession = (req, cb) => {
     req.session.destroy((err) => { cb(err); });
-  };
+};
   
 export const login = (userData, refresh_token, callback) => {
     const username = userData.display_name;
@@ -32,8 +32,7 @@ export const login = (userData, refresh_token, callback) => {
         else{ //create user
             const newUser = new User({
                 username: userData.display_name,
-                refreshToken: refresh_token,
-                bio: "Hey it's Josh"
+                refreshToken: refresh_token
             });
             newUser.save(function(err,user){
                 if(err){

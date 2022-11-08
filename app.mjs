@@ -8,8 +8,6 @@ import { fileURLToPath } from 'url';
 import { URLSearchParams } from 'url';
 import fetch from 'node-fetch';
 import cookieParser from 'cookie-parser'
-import { access } from 'fs';
-import e from 'express';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -36,27 +34,6 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(session(sessionOptions));
-
-//cookie parser
-/*
-app.use((req,res,next) => {
-    const cookie = req.get('Cookie');
-    if(cookie!==undefined){
-        const nameValuePairs = cookie.split("; ");
-        req.myCookies = {};
-    
-        //add cookies to myCookies
-        for(let i=0; i<nameValuePairs.length; i++){
-            const nameAndValue = (nameValuePairs[i]).split("=");
-            const name = nameAndValue[0];
-            const value = nameAndValue[1];
-            req.myCookies[name] = value;
-        }
-    }
-
-    next();
-});
-*/
 app.use(cookieParser());
 
 //logging
@@ -81,7 +58,7 @@ app.use((req,res,next) => {
 });
 
 // require authenticated user for /summary
-app.use(functions.authRequired(['/summary']));
+app.use(functions.authRequired(['/summary', 'edit-profile']));
 
 // make {{user}} variable available for all paths
 app.use((req, res, next) => {
@@ -104,7 +81,7 @@ app.get('/login', function(req, res) {
     const state = functions.generateRandomString(16);
     res.cookie(stateKey, state);
   
-    // your application requests authorization
+    // requests authorization
     const scope = 'user-read-private user-read-email';
     res.redirect('https://accounts.spotify.com/authorize?' +
       new URLSearchParams({
@@ -118,12 +95,11 @@ app.get('/login', function(req, res) {
 
 
 app.get('/callback', async function(req, res) {
-    // your application requests refresh and access tokens
-    // after checking the state parameter
-  
-    var code = req.query.code || null;
-    var state = req.query.state || null;
-    var storedState = req.cookies ? req.cookies[stateKey] : null;
+    //application requests refresh and access tokens
+    //after checking the state parameter
+    const code = req.query.code || null;
+    const state = req.query.state || null;
+    const storedState = req.cookies ? req.cookies[stateKey] : null;
   
     if (state === null || state !== storedState) {
       res.redirect('/#' +
@@ -145,7 +121,7 @@ app.get('/callback', async function(req, res) {
                     console.log(req.session.user);
                     res.redirect('/');
                 } else {
-                     
+                     //TODO
                 }
             });
         }
@@ -157,7 +133,7 @@ app.get('/callback', async function(req, res) {
   
   app.get('/refresh_token', async function(req, res) {
     // requesting access token from refresh token
-    var refresh_token = req.query.refresh_token;
+    const refresh_token = req.query.refresh_token;
     const data = await functions.getTokenWithRefresh(client_id, client_secret, refresh_token);
     console.log(data);
     const access_token = data.access_token;
@@ -168,7 +144,12 @@ app.get('/callback', async function(req, res) {
 });
 
 app.get('/summary', (req, res) => {
-    res.render('summary');
+    if(req.session.user){
+        res.render('summary');
+    }
+    else{
+        res.redirect("/");
+    }
 });
 
 app.get('/leaderboards', (req, res) => {
@@ -178,16 +159,11 @@ app.get('/leaderboards', (req, res) => {
 app.get('/profile/:slug', (req, res) => { 
     User.findOne({slug: req.params.slug}).exec((err, user) => {
       if(user && !err){
-        if(user.username===req.session.user.username){
-            res.render('profile', {user: user, currUser: true});
-        }
-        else{
-            res.render('profile', {user: user, currUser: false});
-        }
+        res.render('profile',{user: user});
         
       }
       else{
-        //res.render('error', {message: 'User does not exist'});
+        //TODO
       }
      });
      
@@ -220,7 +196,7 @@ app.post('/edit-profile', (req, res) => {
                 }
             }
             else{
-              //res.render('error', {message: 'User does not exist'});
+              //TODO
             }
            });
     }
