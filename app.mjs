@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const client_id = 'bd7f033f5d294be08b9547187c9ad500'; // Your client id
-const client_secret = 'bd7f033f5d294be08b9547187c9ad500'; // Your secret
+const client_secret = '35811d16337c4a99b742c94098629bc9'; // Your secret
 const redirect_uri = 'https://final-project-joshforlenza-production.up.railway.app/callback/'; // Your redirect uri
 
 const sessionOptions = {
@@ -152,14 +152,12 @@ app.get('/callback', async function(req, res) {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/x-www-form-urlencoded', 
-                //'Authorization' : 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
+                'Authorization' : 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
             },
             body: new URLSearchParams({
                 grant_type: 'authorization_code',
                 code: code,
                 redirect_uri: redirect_uri,
-                client_id: client_id,
-                client_secret: client_secret
             }),
         });
 
