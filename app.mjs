@@ -122,9 +122,9 @@ app.get('/callback', function(req, res) {
   
     if (state === null || state !== storedState) {
       res.redirect('/#' +
-        querystring.stringify({
-          error: 'state_mismatch'
-        }));
+        new URLSearchParams({
+            error: 'state_mismatch'
+        }).toString());
     } else {
       res.clearCookie(stateKey);
       var authOptions = {
@@ -159,15 +159,15 @@ app.get('/callback', function(req, res) {
   
           // we can also pass the token to the browser to make requests from there
           res.redirect('/#' +
-            querystring.stringify({
-              access_token: access_token,
-              refresh_token: refresh_token
-            }));
+            new URLSearchParams({
+                access_token: access_token,
+                refresh_token: refresh_token
+            }).toString());
         } else {
           res.redirect('/#' +
-            querystring.stringify({
-              error: 'invalid_token'
-            }));
+            new URLSearchParams({
+                error: 'invalid_token'
+            }).toString());
         }
       });
     }
