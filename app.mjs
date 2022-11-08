@@ -15,8 +15,7 @@ const __dirname = path.dirname(__filename);
 
 const client_id = 'bd7f033f5d294be08b9547187c9ad500'; // Your client id
 const client_secret = 'bd7f033f5d294be08b9547187c9ad500'; // Your secret
-//const redirect_uri = 'https://final-project-joshforlenza-production.up.railway.app/callback/'; // Your redirect uri
-const redirect_uri = 'localhost:3000/callback/';
+const redirect_uri = 'https://final-project-joshforlenza-production.up.railway.app/callback/'; // Your redirect uri
 
 const sessionOptions = {
     secret: 'I love Spotify',
