@@ -101,13 +101,13 @@ app.get('/login', function(req, res) {
     // your application requests authorization
     const scope = 'user-read-private user-read-email';
     res.redirect('https://accounts.spotify.com/authorize?' +
-      URLSearchParams.stringify({
+      new URLSearchParams({
         response_type: 'code',
         client_id: client_id,
         scope: scope,
         redirect_uri: redirect_uri,
         state: state
-      }));
+      }).toString());
 });
 
 
