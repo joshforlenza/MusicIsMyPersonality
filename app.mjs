@@ -94,7 +94,7 @@ app.get('/', (req, res) => {
 
 app.get('/login', function(req, res) {
 
-    const state = generateRandomString(16);
+    const state = functions.generateRandomString(16);
     res.cookie(stateKey, state);
   
     // your application requests authorization
