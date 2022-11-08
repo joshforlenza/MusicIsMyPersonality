@@ -138,12 +138,6 @@ app.get('/callback', async function(req, res) {
         const refresh_token = data.refesh_token
 
         //create user doc
-        const response = await fetch('https://api.spotify.com/v1/me', {
-            method: 'GET',
-            headers: {
-                'Authorization' : { 'Authorization': 'Bearer ' + access_token }
-            }
-        });
         const userData = await functions.useAccessToken('https://api.spotify.com/v1/me', access_token);
         console.log(userData);
 
