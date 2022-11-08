@@ -6,7 +6,7 @@ import * as functions from './functions.mjs';
 import path from 'path'
 import { fileURLToPath } from 'url';
 import { URLSearchParams } from 'url';
-import { request  } from 'request';
+import fetch from 'node-fetch';
 import cookieParser from 'cookie-parser'
 
 const app = express();
@@ -130,20 +130,21 @@ app.get('/callback', function(req, res) {
             error: 'state_mismatch'
         }).toString());
     } else {
-      res.clearCookie(stateKey);
-      var authOptions = {
-        url: 'https://accounts.spotify.com/api/token',
-        form: {
-          code: code,
-          redirect_uri: redirect_uri,
-          grant_type: 'authorization_code'
-        },
-        headers: {
-          'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
-        },
-        json: true
-      };
-  
+        res.clearCookie(stateKey);
+        var authOptions = {
+            url: 'https://accounts.spotify.com/api/token',
+            form: {
+            code: code,
+            redirect_uri: redirect_uri,
+            grant_type: 'authorization_code'
+            },
+            headers: {
+            'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+            },
+            json: true
+        };
+      
+      
       request.post(authOptions, function(error, response, body) {
         if (!error && response.statusCode === 200) {
   
@@ -174,6 +175,7 @@ app.get('/callback', function(req, res) {
             }).toString());
         }
       });
+
     }
   });
   
