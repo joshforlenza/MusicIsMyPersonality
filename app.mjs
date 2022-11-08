@@ -144,7 +144,7 @@ app.get('/callback', async function(req, res) {
                 'Authorization' : { 'Authorization': 'Bearer ' + access_token }
             }
         });
-        const userData = await functions.useAccessToken('https://api.spotify.com/v1/me', access);
+        const userData = await functions.useAccessToken('https://api.spotify.com/v1/me', access_token);
         console.log(userData);
 
         
