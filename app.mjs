@@ -9,6 +9,7 @@ import { URLSearchParams } from 'url';
 import fetch from 'node-fetch';
 import cookieParser from 'cookie-parser'
 import { access } from 'fs';
+import e from 'express';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -135,7 +136,7 @@ app.get('/callback', async function(req, res) {
         const data = await functions.getToken(client_id, client_secret, code, redirect_uri);
         console.log(data);
         const access_token = data.access_token
-        const refresh_token = data.refesh_token
+        const refresh_token = data.refresh_token
 
         //create user doc
         const userData = await functions.useAccessToken('https://api.spotify.com/v1/me', access_token);
@@ -149,14 +150,16 @@ app.get('/callback', async function(req, res) {
             if(err){
                 console.error(err);
               }
+            else{
+                //pass the token to the browser to make requests from there
+                res.redirect('/#' +
+                new URLSearchParams({
+                    access_token: access_token,
+                    refresh_token: refresh_token
+                }).toString());
+            }
         })
 
-        //pass the token to the browser to make requests from there
-        res.redirect('/#' +
-            new URLSearchParams({
-                access_token: access_token,
-                refresh_token: refresh_token
-        }).toString());
 
     }
   });
