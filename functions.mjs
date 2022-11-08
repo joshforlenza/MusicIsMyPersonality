@@ -24,7 +24,7 @@ export const login = (userData, refresh_token, callback) => {
     User.findOne({username:username},(err, result) => {
         if(result){
           console.log("USER HAS ALREADY LOGGED IN");
-          callback(user);
+          callback(result);
         }
         else if (err){
             console.err(err);

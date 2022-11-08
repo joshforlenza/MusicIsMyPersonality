@@ -151,28 +151,6 @@ app.get('/callback', async function(req, res) {
         const userData = await functions.useAccessToken('https://api.spotify.com/v1/me', access_token);
         console.log(userData);
         functions.login(userData, refresh_token, success);
-        /*
-        const newUser = new User({
-            username: userData.display_name,
-            refreshToken: refresh_token,
-            bio: "Hey it's Josh"
-        });
-        newUser.save(function(err,user){
-            if(err){
-                console.error(err);
-              }
-            else{
-                //pass the token to the browser to make requests from there
-                res.redirect('/#' +
-                new URLSearchParams({
-                    access_token: access_token,
-                    refresh_token: refresh_token
-                }).toString());
-            }
-        })
-        */
-
-
     }
   });
   
