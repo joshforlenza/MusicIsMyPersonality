@@ -130,21 +130,7 @@ app.get('/callback', async function(req, res) {
         }).toString());
     } else {
         res.clearCookie(stateKey);
-        /*
-        const result = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded', 
-                'Authorization' : 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
-            },
-            body: new URLSearchParams({
-                grant_type: 'authorization_code',
-                code: code,
-                redirect_uri: redirect_uri,
-            }),
-        });
-        */
-        //const data = await result.json();
+
         const data = functions.getToken();
         console.log(data);
         const access_token = data.access_token
@@ -156,39 +142,6 @@ app.get('/callback', async function(req, res) {
                 access_token: access_token,
                 refresh_token: refresh_token
         }).toString());
-      
-      /*
-      request.post(authOptions, function(error, response, body) {
-        if (!error && response.statusCode === 200) {
-  
-          var access_token = body.access_token,
-              refresh_token = body.refresh_token;
-  
-          var options = {
-            url: 'https://api.spotify.com/v1/me',
-            headers: { 'Authorization': 'Bearer ' + access_token },
-            json: true
-          };
-  
-          // use the access token to access the Spotify Web API
-          request.get(options, function(error, response, body) {
-            console.log(body);
-          });
-  
-          // we can also pass the token to the browser to make requests from there
-          res.redirect('/#' +
-            new URLSearchParams({
-                access_token: access_token,
-                refresh_token: refresh_token
-            }).toString());
-        } else {
-          res.redirect('/#' +
-            new URLSearchParams({
-                error: 'invalid_token'
-            }).toString());
-        }
-      });
-      */
 
     }
   });
@@ -196,19 +149,6 @@ app.get('/callback', async function(req, res) {
   app.get('/refresh_token', async function(req, res) {
     // requesting access token from refresh token
     var refresh_token = req.query.refresh_token;
-    /*
-    const result = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'application/x-www-form-urlencoded', 
-                'Authorization' : 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64')
-            },
-            body: new URLSearchParams({
-                grant_type: 'refresh_token',
-                refresh_token: refresh_token
-            }),
-    });
-    */
     const data = functions.getTokenWithRefresh();
     console.log(data);
     const access_token = data.access_token;

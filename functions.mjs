@@ -1,4 +1,5 @@
 import { URLSearchParams } from 'url';
+import {fetch} from 'node-fetch'
 
 export const authRequired = authRequiredPaths => {
     return (req, res, next) => {
