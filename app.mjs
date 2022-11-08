@@ -58,7 +58,7 @@ app.use((req,res,next) => {
 });
 
 // require authenticated user for /summary
-app.use(functions.authRequired(['/summary', 'edit-profile']));
+app.use(functions.authRequired(['/summary', '/edit-profile']));
 
 // make {{user}} variable available for all paths
 app.use((req, res, next) => {
