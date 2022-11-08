@@ -1,5 +1,6 @@
 import { URLSearchParams } from 'url';
-import fetch from 'node-fetch'
+import fetch from 'node-fetch';
+import mongoose from 'mongoose';
 
 const User = mongoose.model('User');
 
