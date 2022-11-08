@@ -1,6 +1,50 @@
 import { URLSearchParams } from 'url';
 import fetch from 'node-fetch'
 
+export const startAuthenticatedSession = (req, user, cb) => {
+    req.session.regenerate((err) => {
+      if (!err) {
+        req.session.user = user;
+      } else {
+        console.err(err);
+      }
+      cb(err);
+    });
+  };
+  
+export const endAuthenticatedSession = (req, cb) => {
+    req.session.destroy((err) => { cb(err); });
+  };
+  
+export const login = (userData, callback) => {
+    const username = userData.display_name;
+    User.findOne({username:username},(err, result) => {
+        if(result){
+          console.log("USER HAS ALREADY LOGGED IN");
+          callback(user);
+        }
+        else if (err){
+            console.err(err);
+        }
+        else{ //create user
+            const newUser = new User({
+                username: userData.display_name,
+                refreshToken: refresh_token,
+                bio: "Hey it's Josh"
+            });
+            newUser.save(function(err,user){
+                if(err){
+                    console.error(err);
+                  }
+                else{
+                    callback(user);
+                }
+            })
+        }
+      });
+    
+  };
+
 export const authRequired = authRequiredPaths => {
     return (req, res, next) => {
       if(authRequiredPaths.includes(req.path)) {

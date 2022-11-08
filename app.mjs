@@ -139,8 +139,19 @@ app.get('/callback', async function(req, res) {
         const refresh_token = data.refresh_token
 
         //create user doc
+        function success(newUser) {
+            auth.startAuthenticatedSession(req, newUser, (err) => {
+                if (!err) {
+                    res.redirect('/');
+                } else {
+                    res.render('error', {message: 'err authing???'}); 
+                }
+            });
+        }
         const userData = await functions.useAccessToken('https://api.spotify.com/v1/me', access_token);
         console.log(userData);
+        functions.login(userData, success);
+        /*
         const newUser = new User({
             username: userData.display_name,
             refreshToken: refresh_token,
@@ -159,6 +170,7 @@ app.get('/callback', async function(req, res) {
                 }).toString());
             }
         })
+        */
 
 
     }
@@ -184,26 +196,7 @@ app.get('/leaderboards', (req, res) => {
     res.render('leaderboards');
 });
 
-app.get('/profile/:slug', (req, res) => {
-    /*
-    const test = new User({
-        username: 'Josh123',
-        email: 'joshforlenza@gmail.com',
-        password: 'abcd123',
-        // username provided by Spotify API plugin
-        // password hash provided by Spotify API plugin
-        bio: 'Lol'
-    })
-    test.save(function(err,user){
-        if(err){
-            console.error(err);
-          }
-          else{
-            res.render('profile', {user: user});
-          }
-    })
-    */
-    
+app.get('/profile/:slug', (req, res) => { 
     User.findOne({slug: req.params.slug}).exec((err, user) => {
       if(user && !err){
         res.render('profile', {user: user});
