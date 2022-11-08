@@ -3,10 +3,7 @@ import mongooseSlugPlugin from 'mongoose-slug-plugin';
 
 const UserSchema = new mongoose.Schema({
     username: {type:String, unique: true, required: true},
-    email: {type:String, unique: true, required: true},
-    password: {type:String, unique: true, required: true},
-    // username provided by Spotify API plugin
-    // password hash provided by Spotify API plugin
+    refreshToken: {type:String, unique: true, required: true}, //used for Spotify auth
     bio: {type:String},
     stats: [{type: String, percent: String}],
     ranking: [{type: String, rank: String}],

@@ -135,14 +135,21 @@ app.get('/callback', async function(req, res) {
         const data = await functions.getToken(client_id, client_secret, code, redirect_uri);
         console.log(data);
         const access_token = data.access_token
-        console.log(access_token);
         const refresh_token = data.refesh_token
 
         //create user doc
         const userData = await functions.useAccessToken('https://api.spotify.com/v1/me', access_token);
         console.log(userData);
-
-        
+        const newUser = new User({
+            username: userData.display_name,
+            refreshToken: refresh_token,
+            bio: "Hey it's Josh"
+        });
+        newUser.save(function(err,user){
+            if(err){
+                console.error(err);
+              }
+        })
 
         //pass the token to the browser to make requests from there
         res.redirect('/#' +
@@ -175,6 +182,7 @@ app.get('/leaderboards', (req, res) => {
 });
 
 app.get('/profile/:slug', (req, res) => {
+    /*
     const test = new User({
         username: 'Josh123',
         email: 'joshforlenza@gmail.com',
@@ -191,7 +199,8 @@ app.get('/profile/:slug', (req, res) => {
             res.render('profile', {user: user});
           }
     })
-    /*
+    */
+    
     User.findOne({slug: req.params.slug}).exec((err, user) => {
       if(user && !err){
         res.render('profile', {user: user});
@@ -200,7 +209,7 @@ app.get('/profile/:slug', (req, res) => {
         res.render('error', {message: 'User does not exist'});
       }
      });
-     */
+     
 });
 
 
