@@ -152,7 +152,7 @@ app.get('/callback', async function(req, res) {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/x-www-form-urlencoded', 
-                'Authorization' : 'Basic ' + Buffer.from(clientId + ':' + clientSecret, 'base64')
+                'Authorization' : 'Basic ' + Buffer.from(client_id + ':' + client_secret, 'base64')
             },
             body: new URLSearchParams({
                 grant_type: 'authorization_code',
