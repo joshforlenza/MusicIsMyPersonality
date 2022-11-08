@@ -147,11 +147,11 @@ app.get('/callback', async function(req, res) {
         const response = await fetch('https://accounts.spotify.com/api/token' ,
         {
             method: 'post',
-            body: {
+            body: JSON.stringify({
                 grant_type: 'authorization_code',
                 code: code,
                 redirect_uri: redirect_uri
-            },
+            }),
             headers: {
                 'Authorization': 'Basic ' + (Buffer.from(client_id + ':' + client_secret).toString('base64'))
             },
