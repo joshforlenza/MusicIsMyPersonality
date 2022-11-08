@@ -131,7 +131,7 @@ app.get('/callback', async function(req, res) {
     } else {
         res.clearCookie(stateKey);
 
-        const data = functions.getToken();
+        const data = functions.getToken(client_id, client_secret, code, redirect_uri);
         console.log(data);
         const access_token = data.access_token
         const refresh_token = data.refesh_token
@@ -149,7 +149,7 @@ app.get('/callback', async function(req, res) {
   app.get('/refresh_token', async function(req, res) {
     // requesting access token from refresh token
     var refresh_token = req.query.refresh_token;
-    const data = functions.getTokenWithRefresh();
+    const data = functions.getTokenWithRefresh(client_id, client_secret, refresh_token);
     console.log(data);
     const access_token = data.access_token;
     res.send({

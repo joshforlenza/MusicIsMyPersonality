@@ -30,7 +30,7 @@ export const generateRandomString = function(length) {
     return text;
 };
 
-export const getToken = async () => {
+export const getToken = async (client_id, client_secret, code, redirect_uri) => {
     const result = await fetch('https://accounts.spotify.com/api/token', {
             method: 'POST',
             headers: {
@@ -48,7 +48,7 @@ export const getToken = async () => {
     return data;
 }
 
-export const getTokenWithRefresh = async () => {
+export const getTokenWithRefresh = async (client_id, client_secret, refresh_token) => {
     const result = await fetch('https://accounts.spotify.com/api/token', {
             method: 'POST',
             headers: {
