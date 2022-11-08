@@ -58,7 +58,7 @@ app.use((req,res,next) => {
 });
 
 // require authenticated user for /summary
-app.use(functions.authRequired(['/summary', '/edit-profile']));
+app.use(functions.authRequired(['/summary']));
 
 // make {{user}} variable available for all paths
 app.use((req, res, next) => {
@@ -169,6 +169,8 @@ app.get('/profile/:slug', (req, res) => {
 });
 
 app.get('/edit-profile', (req, res) => {
+    //for final version edit-profile page can only be accessed by
+    //logged in users
     res.render('edit-profile');
 });
 
