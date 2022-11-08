@@ -131,6 +131,7 @@ app.get('/callback', async function(req, res) {
         }).toString());
     } else {
         res.clearCookie(stateKey);
+        /*
         var authOptions = {
             url: 'https://accounts.spotify.com/api/token',
             form: {
@@ -143,9 +144,10 @@ app.get('/callback', async function(req, res) {
             },
             json: true
         };
+        */
 
         
-        const data = functions._getToken;
+        const data = functions._getToken();
         console.log(data);
       
       /*
