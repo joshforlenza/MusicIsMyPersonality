@@ -19,7 +19,7 @@ export const endAuthenticatedSession = (req, cb) => {
     req.session.destroy((err) => { cb(err); });
   };
   
-export const login = (userData, callback) => {
+export const login = (userData, refresh_token, callback) => {
     const username = userData.display_name;
     User.findOne({username:username},(err, result) => {
         if(result){
