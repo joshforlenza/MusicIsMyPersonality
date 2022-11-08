@@ -6,6 +6,7 @@ import * as functions from './functions.mjs';
 import path from 'path'
 import { fileURLToPath } from 'url';
 import { URLSearchParams } from 'url';
+import { request  } from 'http';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -94,7 +95,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', function(req, res) {
-
     const state = functions.generateRandomString(16);
     res.cookie(stateKey, state);
   
@@ -112,7 +112,6 @@ app.get('/login', function(req, res) {
 
 
 app.get('/callback', function(req, res) {
-
     // your application requests refresh and access tokens
     // after checking the state parameter
   
