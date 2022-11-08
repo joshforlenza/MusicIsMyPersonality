@@ -187,7 +187,7 @@ app.get('/profile/:slug', (req, res) => {
         
       }
       else{
-        res.render('error', {message: 'User does not exist'});
+        //res.render('error', {message: 'User does not exist'});
       }
      });
      
@@ -197,6 +197,37 @@ app.get('/edit-profile', (req, res) => {
     res.render('edit-profile');
 });
 
+app.post('/edit-profile', (req, res) => {
+    if(req.session.user){
+        const currUser = req.session.user;
+        User.findOne({username: currUser.username}).exec((err, user) => {
+            if(user && !err){
+                if (req.body!={}){
+                    if(req.body.username!=''){
+                        user.username = req.body.username;
+                    }
+                    if(req.body.bio!=''){
+                        user.bio = req.body.bio;
+                    }
+                    user.save(function(err,user){
+                        if(err){
+                            console.error(err);
+                          }
+                        else{
+                            res.render("Saved");
+                        }
+                    });
+                }
+            }
+            else{
+              //res.render('error', {message: 'User does not exist'});
+            }
+           });
+    }
+    else{
+      res.redirect("/");
+    }
+  });
 
 
 app.listen(process.env.PORT || 3000);
