@@ -153,7 +153,12 @@ app.get('/leaderboards', (req, res) => {
 app.get('/profile/:slug', (req, res) => { 
     User.findOne({slug: req.params.slug}).exec((err, user) => {
       if(user && !err){
-        res.render('profile',{user: user});
+        if(user===req.session.user){
+            res.render('profile', {user: user, currUser: true});
+        }
+        else{
+            res.render('profile', {user: user, currUser: false});
+        }
         
       }
       else{
