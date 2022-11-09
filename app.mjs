@@ -183,9 +183,6 @@ app.post('/edit-profile', (req, res) => {
         User.findOne({username: currUser.username}).exec((err, user) => {
             if(user && !err){
                 if (req.body!={}){
-                    if(req.body.username!=''){
-                        user.username = req.body.username;
-                    }
                     if(req.body.bio!=''){
                         user.bio = req.body.bio;
                     }
