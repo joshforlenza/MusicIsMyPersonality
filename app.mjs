@@ -141,9 +141,10 @@ app.get('/summary', async (req, res) => {
     if(req.session.user){
         const data = await functions.getTokenWithRefresh(client_id, client_secret, req.session.user.refresh_token);
         const access_token = data.access_token;
-        const response = functions.useAccessToken("https://api.spotify.com/v1/me/tracks",access_token);
+        const response = await functions.useAccessToken("https://api.spotify.com/v1/me/tracks",access_token);
         console.log(response);
         const userData = response.items;
+        console.log(userData);
         res.render('summary');
     }
     else{
