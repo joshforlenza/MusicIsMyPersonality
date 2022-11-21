@@ -121,7 +121,7 @@ app.get('/callback', async function(req, res) {
         }
         const userData = await functions.useAccessToken('https://api.spotify.com/v1/me', access_token);
         console.log(userData);
-        functions.login(userData, refresh_token, success);
+        functions.login(userData, access_token, success);
     }
   });
   

@@ -19,11 +19,12 @@ export const endAuthenticatedSession = (req, cb) => {
     req.session.destroy((err) => { cb(err); });
 };
   
-export const login = (userData, refresh_token, callback) => {
+export const login = (userData, authToken, callback) => {
     const username = userData.display_name;
     User.findOne({username:username},(err, result) => {
         if(result){
           console.log("USER HAS ALREADY LOGGED IN");
+          result.authToken = authToken;
           callback(result);
         }
         else if (err){
@@ -32,7 +33,7 @@ export const login = (userData, refresh_token, callback) => {
         else{ //create user
             const newUser = new User({
                 username: userData.display_name,
-                refreshToken: refresh_token
+                authToken: authToken
             });
             newUser.save(function(err,user){
                 if(err){
