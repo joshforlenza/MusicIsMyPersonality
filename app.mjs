@@ -76,7 +76,7 @@ app.get('/login', function(req, res) {
     res.cookie(stateKey, state);
   
     // requests authorization
-    const scope = 'user-read-private user-read-email';
+    const scope = 'user-read-private user-read-email user-top-read playlist-modify-private playlist-modify-public';
     res.redirect('https://accounts.spotify.com/authorize?' +
       new URLSearchParams({
         response_type: 'code',
@@ -137,8 +137,13 @@ app.get('/refresh_token', async function(req, res) {
 
 });
 
-app.get('/summary', (req, res) => {
+app.get('/summary', async (req, res) => {
     if(req.session.user){
+        const data = await functions.getTokenWithRefresh(client_id, client_secret, req.session.user.refresh_token);
+        const access_token = data.access_token;
+        const response = functions.useAccessToken("https://api.spotify.com/v1/me/tracks",access_token);
+        console.log(response);
+        const userData = response.items;
         res.render('summary');
     }
     else{
@@ -209,3 +214,12 @@ app.post('/edit-profile', (req, res) => {
 
 app.listen(process.env.PORT || 3000);
 
+/*
+forms:
+Create form that allows user to pick 5 favorite artists and albums
+Research topics:
+Figure out how to get top tracks and display
+
+Maybe change idea towards a Letterboxd for Spotify that is more focused 
+on user profiles than stats
+*/
