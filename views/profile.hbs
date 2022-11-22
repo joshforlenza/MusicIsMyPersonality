@@ -2,7 +2,7 @@
 <h4>{{user.bio}}</h4>
 <h4>Favorite Albums:</h4>
 {{#each user.favoriteAlbums}}
-    <div>{{@index}}. {{this}}</div>
+    <div>{{math @index "+" 1}}. {{this}}</div>
 {{/each}}
 {{#if currUser}}
 <br>
