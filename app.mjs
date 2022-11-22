@@ -73,6 +73,7 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
+
 app.get('/login', function(req, res) {
     const state = functions.generateRandomString(16);
     res.cookie(stateKey, state);
@@ -143,8 +144,8 @@ app.get('/summary', async (req, res) => {
     if(req.session.user){
         const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/artists",req.session.user.authToken);
         //console.log(response);
-        //const topArtists = response.items;
-        console.log(topArtists);
+        const topArtists = response.items;
+        //console.log(topArtists);
         const response2 = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
         //console.log(response2);
         const topTracks = response2.items;

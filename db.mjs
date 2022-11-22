@@ -9,7 +9,8 @@ const UserSchema = new mongoose.Schema({
       third: String, fourth: String, fifth: String},
     stats: [{type: String, percent: String}],
     ranking: [{type: String, rank: String}],
-    summary:  { type: mongoose.Schema.Types.ObjectId, ref: 'Summary' }
+    summary:  { type: mongoose.Schema.Types.ObjectId, ref: 'Summary' },
+    message: String
 });
 
 const SummarySchema = new mongoose.Schema({
