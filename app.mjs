@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import { URLSearchParams } from 'url';
 import fetch from 'node-fetch';
 import cookieParser from 'cookie-parser'
+import { Handlebars } from 'hbs';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
