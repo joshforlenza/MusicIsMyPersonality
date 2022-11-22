@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 import { URLSearchParams } from 'url';
 import fetch from 'node-fetch';
 import cookieParser from 'cookie-parser'
-import { Handlebars } from 'hbs';
+import { handlebars } from 'hbs';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -31,7 +31,7 @@ const Leaderboard = mongoose.model('Leaderboard');
 
 app.set('view engine', 'hbs');
 
-Handlebars.registerHelper("inc", function(value, options)
+handlebars.registerHelper("inc", function(value, options)
 {
     return parseInt(value) + 1;
 });
