@@ -30,6 +30,11 @@ const Leaderboard = mongoose.model('Leaderboard');
 
 app.set('view engine', 'hbs');
 
+Handlebars.registerHelper("inc", function(value, options)
+{
+    return parseInt(value) + 1;
+});
+
 //middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
