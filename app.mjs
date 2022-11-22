@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 import { URLSearchParams } from 'url';
 import fetch from 'node-fetch';
 import cookieParser from 'cookie-parser'
-import { handlebars } from 'hbs';
+
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -31,10 +31,6 @@ const Leaderboard = mongoose.model('Leaderboard');
 
 app.set('view engine', 'hbs');
 
-handlebars.registerHelper("inc", function(value, options)
-{
-    return parseInt(value) + 1;
-});
 
 //middleware
 app.use(express.static(path.join(__dirname, 'public')));
@@ -147,7 +143,7 @@ app.get('/summary', async (req, res) => {
     if(req.session.user){
         //const data = await functions.getTokenWithRefresh(client_id, client_secret, req.session.user.refresh_token);
         //const access_token = data.access_token;
-        const response = await functions.useAccessToken("https://api.spotify.com/v1/me/tracks",req.session.user.authToken);
+        const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/type",req.session.user.authToken);
         console.log(response);
         const userData = response.items;
         console.log(userData);
