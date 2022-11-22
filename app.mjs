@@ -148,8 +148,9 @@ app.get('/summary', async (req, res) => {
         const topTracks = response.items;
         console.log(userData);
         const response2 = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
+        console.log(response2);
         const topArtists = response2.items;
-        res.render('summary');
+        res.render('summary', {topArtists: topArtists, topTracks: topTracks});
     }
     else{
         res.redirect("/");
