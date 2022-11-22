@@ -141,16 +141,14 @@ app.get('/refresh_token', async function(req, res) {
 
 app.get('/summary', async (req, res) => {
     if(req.session.user){
-        //const data = await functions.getTokenWithRefresh(client_id, client_secret, req.session.user.refresh_token);
-        //const access_token = data.access_token;
         const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/artists",req.session.user.authToken);
-        console.log(response);
-        const topArtists = response.items;
+        //console.log(response);
+        //const topArtists = response.items;
         console.log(topArtists);
         const response2 = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
-        console.log(response2);
+        //console.log(response2);
         const topTracks = response2.items;
-        console.log(topTracks);
+        //console.log(topTracks);
         res.render('summary', {topArtists: topArtists, topTracks: topTracks});
     }
     else{
