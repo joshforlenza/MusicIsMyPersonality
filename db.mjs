@@ -5,7 +5,8 @@ const UserSchema = new mongoose.Schema({
     username: {type:String, unique: true, required: true},
     authToken: {type:String, unique: true, required: true}, //used for Spotify auth
     bio: {type:String},
-    favoriteAlbums: [String],
+    favoriteAlbums: {first: String, second: String, 
+      third: String, fourth: String, fifth: String},
     stats: [{type: String, percent: String}],
     ranking: [{type: String, rank: String}],
     summary:  { type: mongoose.Schema.Types.ObjectId, ref: 'Summary' }

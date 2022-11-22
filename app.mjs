@@ -193,19 +193,19 @@ app.post('/edit-profile', (req, res) => {
                         user.bio = req.body.bio;
                     }
                     if(req.body.favoritealbum1!=""){
-                        user.favoriteAlbums.push(req.body.favoritealbum1);
+                        user.favoriteAlbums.first = req.body.favoriteAlbum1;
                     }
                     if(req.body.favoritealbum2!=""){
-                        user.favoriteAlbums.push(req.body.favoritealbum2);
+                        user.favoriteAlbums.second = req.body.favoriteAlbum2;
                     }
                     if(req.body.favoritealbum3!=""){
-                        user.favoriteAlbums.push(req.body.favoritealbum3);
+                        user.favoriteAlbums.third = req.body.favoriteAlbum3;
                     }
                     if(req.body.favoritealbum4!=""){
-                        user.favoriteAlbums.push(req.body.favoritealbum4);
+                        user.favoriteAlbums.fourth = req.body.favoriteAlbum4;
                     }
                     if(req.body.favoritealbum5!=""){
-                        user.favoriteAlbums.push(req.body.favoritealbum5);
+                        user.favoriteAlbums.fifth = req.body.favoriteAlbum5;
                     }
 
                     user.save(function(err,user){
