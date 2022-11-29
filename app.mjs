@@ -193,7 +193,7 @@ app.get('/summary', async (req, res) => {
         console.log("Summary: " + summary);
         try {
             const user = await User.findOne({username:req.session.user.username}).exec();
-            user.stats.push({type: "popularity", percent: popStat});
+            user.stats.push({name: "popularity", percent: popStat});
             user.summary = summary._id;
             console.log("Stat: " + popStat);
             await user.save();
