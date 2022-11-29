@@ -159,7 +159,7 @@ app.get('/summary', async (req, res) => {
                 
 
             } catch (err){
-                console.err(err);
+                console.error(err);
             }
             
         }
@@ -169,7 +169,7 @@ app.get('/summary', async (req, res) => {
                 
 
             } catch (err){
-                console.err(err);
+                console.error(err);
             }
         }
         else if(popStat>10){
@@ -178,7 +178,7 @@ app.get('/summary', async (req, res) => {
                 
 
             } catch (err){
-                console.err(err);
+                console.error(err);
             }
         }
         else if(popStat<10){
@@ -187,19 +187,20 @@ app.get('/summary', async (req, res) => {
                 
 
             } catch (err){
-                console.err(err);
+                console.error(err);
             }
         }
         console.log("Summary: " + summary);
         try {
             const user = await User.findOne({username:req.session.user.username}).exec();
-            user.stats.push({popularity: popStat});
+            user.stats.push({type: "popularity", percent: popStat});
             user.summary = summary._id;
             console.log("Stat: " + popStat);
+            await user.save();
             res.render('summary', {topArtists: topArtists, topTracks: topTracks});
 
         } catch (err){
-            console.err(err);
+            console.error(err);
         }
     }
     else{
