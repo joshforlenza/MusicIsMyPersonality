@@ -28,6 +28,7 @@ const stateKey = 'spotify_auth_state';
 
 const User = mongoose.model('User');
 const Leaderboard = mongoose.model('Leaderboard');
+const Summary = mongoose.model('Summary');
 
 app.set('view engine', 'hbs');
 
@@ -151,8 +152,54 @@ app.get('/summary', async (req, res) => {
         const topTracks = response2.items;
         console.log(topTracks);
         const popStat = functions.getPopularityStat(topTracks);
-        console.log("Stat: " + popStat);
-        res.render('summary', {topArtists: topArtists, topTracks: topTracks});
+        let summary;
+        if(popStat>0.70){
+            try {
+                summary = await Summary.findOne({name:"zeroTaste"}).exec();
+                
+
+            } catch (err){
+                console.err(err);
+            }
+            
+        }
+        else if(popStat>40){
+            try {
+                summary = await Summary.findOne({name:"average"}).exec();
+                
+
+            } catch (err){
+                console.err(err);
+            }
+        }
+        else if(popStat>10){
+            try {
+                summary = await Summary.findOne({name:"almostSnob"}).exec();
+                
+
+            } catch (err){
+                console.err(err);
+            }
+        }
+        else if(popStat<10){
+            try {
+                summary = await Summary.findOne({name:"musicSnob"}).exec();
+                
+
+            } catch (err){
+                console.err(err);
+            }
+        }
+        try {
+            const user = await User.findOne({username:req.session.user.username}).exec();
+            user.stats.popularity = popStat;
+            user.summary = summary._id;
+            console.log("Stat: " + popStat);
+            res.render('summary', {topArtists: topArtists, topTracks: topTracks});
+
+        } catch (err){
+            console.err(err);
+        }
     }
     else{
         res.redirect("/");
@@ -257,11 +304,11 @@ Make sure it properly dispays for each percent of popularity
 Summaries:
 0-10%:
 
-20-30%:
+10-30%:
 
-40-50%:
+40-60%:
 
-50>%:
+70>%:
 I don't even know if I can call this "music taste".
 Do you exclusively listen to the top 50 charts?
 There's not a single song here that 

@@ -130,7 +130,7 @@ export const getPopularityStat = (tracks) => {
         sum += track.popularity/100;
     }
 
-    return (sum/tracks.length);
+    return (sum/tracks.length).toFixed(2);
 }
 
 
