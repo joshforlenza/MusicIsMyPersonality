@@ -123,11 +123,11 @@ export const useAccessToken = async (url, access_token) => {
     return data;
 }
 
-export const getPopularityStat = async (tracks) => {
+export const getPopularityStat = (tracks) => {
     let sum = 0;
     for(let i=0; i<tracks.length; i++){
         const track = tracks[i];
-        sum += track.popularity;
+        sum += track.popularity/100;
     }
 
     return (sum/tracks.length);

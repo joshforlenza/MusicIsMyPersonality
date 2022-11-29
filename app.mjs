@@ -151,7 +151,7 @@ app.get('/summary', async (req, res) => {
         const topTracks = response2.items;
         console.log(topTracks);
         const popStat = functions.getPopularityStat(topTracks);
-        console.log(popStat);
+        console.log("Stat: " + popStat);
         res.render('summary', {topArtists: topArtists, topTracks: topTracks});
     }
     else{
