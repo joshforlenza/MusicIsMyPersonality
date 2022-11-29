@@ -149,7 +149,9 @@ app.get('/summary', async (req, res) => {
         const response2 = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
         //console.log(response2);
         const topTracks = response2.items;
-        //console.log(topTracks);
+        console.log(topTracks);
+        const popStat = functions.getPopularityStat(topTracks);
+        console.log(popStat);
         res.render('summary', {topArtists: topArtists, topTracks: topTracks});
     }
     else{
@@ -244,4 +246,23 @@ Figure out how to get top tracks and display
 
 Maybe change idea towards a Letterboxd for Spotify that is more focused 
 on user profiles than stats
+
+Calculate User's stats:
+Get popularity stat for each of top tracks
+Sum and divide by number of top tracks
+
+Create unit tests for summaries
+Make sure it properly dispays for each percent of popularity
+
+Summaries:
+0-10%:
+
+20-30%:
+
+40-50%:
+
+50>%:
+I don't even know if I can call this "music taste".
+Do you exclusively listen to the top 50 charts?
+There's not a single song here that 
 */
