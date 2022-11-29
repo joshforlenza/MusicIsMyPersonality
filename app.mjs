@@ -190,9 +190,10 @@ app.get('/summary', async (req, res) => {
                 console.err(err);
             }
         }
+        console.log("Summary: " + summary);
         try {
             const user = await User.findOne({username:req.session.user.username}).exec();
-            user.stats.popularity = popStat;
+            user.stats.push({popularity: popStat});
             user.summary = summary._id;
             console.log("Stat: " + popStat);
             res.render('summary', {topArtists: topArtists, topTracks: topTracks});
