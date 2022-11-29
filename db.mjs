@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
     bio: {type:String},
     favoriteAlbums: {first: String, second: String, 
       third: String, fourth: String, fifth: String},
-    stats: [{type: String, percent: String}],
+    stats: [{type: String, percent: Number}],
     ranking: [{type: String, rank: String}],
     summary:  { type: mongoose.Schema.Types.ObjectId, ref: 'Summary' },
     message: String
