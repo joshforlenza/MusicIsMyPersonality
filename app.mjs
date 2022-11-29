@@ -144,13 +144,9 @@ app.get('/refresh_token', async function(req, res) {
 app.get('/summary', async (req, res) => {
     if(req.session.user){
         const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/artists",req.session.user.authToken);
-        //console.log(response);
         const topArtists = response.items;
-        //console.log(topArtists);
         const response2 = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
-        //console.log(response2);
         const topTracks = response2.items;
-        console.log(topTracks);
         const popStat = functions.getPopularityStat(topTracks);
         let summary;
         if(popStat>0.70){
@@ -163,7 +159,7 @@ app.get('/summary', async (req, res) => {
             }
             
         }
-        else if(popStat>40){
+        else if(popStat>0.40){
             try {
                 summary = await Summary.findOne({name:"average"}).exec();
                 
@@ -172,7 +168,7 @@ app.get('/summary', async (req, res) => {
                 console.error(err);
             }
         }
-        else if(popStat>10){
+        else if(popStat>0.10){
             try {
                 summary = await Summary.findOne({name:"almostSnob"}).exec();
                 
@@ -181,7 +177,7 @@ app.get('/summary', async (req, res) => {
                 console.error(err);
             }
         }
-        else if(popStat<10){
+        else if(popStat<0.10){
             try {
                 summary = await Summary.findOne({name:"musicSnob"}).exec();
                 
@@ -197,7 +193,7 @@ app.get('/summary', async (req, res) => {
             user.summary = summary._id;
             console.log("Stat: " + popStat);
             await user.save();
-            res.render('summary', {topArtists: topArtists, topTracks: topTracks});
+            res.render('summary', {topArtists: topArtists, topTracks: topTracks, user: user});
 
         } catch (err){
             console.error(err);
