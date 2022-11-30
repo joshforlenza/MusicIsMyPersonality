@@ -147,7 +147,7 @@ app.get('/summary', async (req, res) => {
         const topArtists = response.items;
         const response2 = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
         const topTracks = response2.items;
-        if(topTracks==[]){ //new account with no data
+        if(topTracks.length===0){ //new account with no data
             res.render('summary', {message: "Sorry your account has insufficient data to produce a user sumamry for you"});
         }
         else{
