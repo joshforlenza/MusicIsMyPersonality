@@ -1,3 +1,7 @@
+{{#if message}}
+<h3>{{message}}</h3>
+
+{{else}}
 <h3>Your Top Artists:</h3>
 {{#each topArtists}}
     <div>{{this.name}}</div>
@@ -10,3 +14,6 @@
 
 <h3>Summary</h3>
 {{user.summary.description}}
+
+{{/if}}
+
