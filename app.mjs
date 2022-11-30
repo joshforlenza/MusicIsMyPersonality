@@ -200,7 +200,7 @@ app.get('/summary', async (req, res) => {
                 user.summary = summary._id;
                 console.log("Stat: " + popStat);
                 await user.save();
-                res.render('summary', {topArtists: topArtists, topTracks: topTracks, user: user});
+                res.render('summary', {topArtists: topArtists, topTracks: topTracks, summary: summary.description});
 
             } catch (err){
                 console.error(err);
