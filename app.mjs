@@ -147,7 +147,9 @@ app.get('/summary', async (req, res) => {
         const topArtists = response.items;
         const response2 = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
         const topTracks = response2.items;
+        console.log(topTracks);
         const popStat = functions.getPopularityStat(topTracks);
+        console.log(popStat);
         let summary;
         if(popStat>0.70){
             try {
