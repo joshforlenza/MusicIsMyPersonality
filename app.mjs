@@ -310,4 +310,6 @@ Summaries:
 I don't even know if I can call this "music taste".
 Do you exclusively listen to the top 50 charts?
 There's not a single song here that 
+
+Create error handling for expired auth token
 */
