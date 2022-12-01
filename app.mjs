@@ -204,6 +204,7 @@ app.get('/summary', async (req, res) => {
                 await user.save();
                 */
                 const summary = await Summary.findById(req.session.user.summary).exec();
+                console.log(summary);
                 res.render('summary', {topArtists: topArtists, topTracks: topTracks, summary: summary.description});
 
             } catch (err){

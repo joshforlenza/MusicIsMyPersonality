@@ -146,6 +146,7 @@ export const login = (userData, authToken, callback) => {
           result.authToken = authToken;
           result.stats.obscurity = popStat;
           result.summary = summary._id;
+          await result.save();
           callback(result);
         }
         else if (err){
