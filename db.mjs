@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
     favoriteAlbums: {first: String, second: String, 
       third: String, fourth: String, fifth: String},
     stats: {obscurity: Number},
-    summary:  { type: mongoose.Schema.Types.ObjectId, ref: 'Summary' }
+    summary: { type: mongoose.Schema.Types.ObjectId, ref: 'Summary' }
 });
 
 const SummarySchema = new mongoose.Schema({

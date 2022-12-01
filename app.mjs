@@ -142,6 +142,7 @@ app.get('/refresh_token', async function(req, res) {
 
 app.get('/summary', async (req, res) => {
     if(req.session.user){
+        
         const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/artists",req.session.user.authToken);
         const topArtists = response.items;
         const response2 = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
@@ -150,6 +151,7 @@ app.get('/summary', async (req, res) => {
             res.render('summary', {message: "Sorry your account has insufficient data to produce a user sumamry for you"});
         }
         else{
+            /*
             console.log(topTracks);
             const popStat = functions.getPopularityStat(topTracks);
             console.log(popStat);
@@ -192,12 +194,16 @@ app.get('/summary', async (req, res) => {
                 }
             }
             console.log("Summary: " + summary);
+            */
             try {
+                /*
                 const user = await User.findOne({username:req.session.user.username}).exec();
-                user.stats.popularity = popStat;
+                user.stats.obscurity = popStat;
                 user.summary = summary._id;
                 console.log("Stat: " + popStat);
                 await user.save();
+                */
+                const summary = await Summary.findById(req.session.user.summary).exec();
                 res.render('summary', {topArtists: topArtists, topTracks: topTracks, summary: summary.description});
 
             } catch (err){

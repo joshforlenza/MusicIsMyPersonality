@@ -4,70 +4,12 @@ import mongoose from 'mongoose';
 
 const User = mongoose.model('User');
 
-export const startAuthenticatedSession = (req, user, cb) => {
-    req.session.regenerate((err) => {
-      if (!err) {
-        req.session.user = user;
-      } else {
-        console.err(err);
-      }
-      cb(err);
-    });
-  };
-  
-export const endAuthenticatedSession = (req, cb) => {
-    req.session.destroy((err) => { cb(err); });
-};
-  
-export const login = (userData, authToken, callback) => {
-    const username = userData.display_name;
-    User.findOne({username:username},(err, result) => {
-        if(result){
-          console.log("USER HAS ALREADY LOGGED IN");
-          result.authToken = authToken;
-          callback(result);
-        }
-        else if (err){
-            console.err(err);
-        }
-        else{ //create user
-            const newUser = new User({
-                username: userData.display_name,
-                authToken: authToken
-            });
-            newUser.save(function(err,user){
-                if(err){
-                    console.error(err);
-                  }
-                else{
-                    callback(user);
-                }
-            })
-        }
-      });
-    
-  };
-
-export const authRequired = authRequiredPaths => {
-    return (req, res, next) => {
-      if(authRequiredPaths.includes(req.path)) {
-        if(!req.session.user) {
-          res.redirect('/'); 
-        } else {
-          next(); 
-        }
-      } else {
-        next(); 
-      }
-    };
-  };
-
   /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
  * @return {string} The generated string
  */
-export const generateRandomString = function(length) {
+   export const generateRandomString = function(length) {
     let text = '';
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   
@@ -132,5 +74,121 @@ export const getPopularityStat = (tracks) => {
 
     return (sum/tracks.length).toFixed(2);
 }
+
+export const pickSummary = async (popStat) => {
+    let summary;
+    if(popStat>0.70){
+      try {
+          summary = await Summary.findOne({name:"zeroTaste"}).exec();
+          
+
+      } catch (err){
+          console.error(err);
+      }
+      
+    }
+    else if(popStat>0.40){
+        try {
+            summary = await Summary.findOne({name:"average"}).exec();
+            
+
+        } catch (err){
+            console.error(err);
+        }
+    }
+    else if(popStat>0.10){
+        try {
+            summary = await Summary.findOne({name:"almostSnob"}).exec();
+            
+
+        } catch (err){
+            console.error(err);
+        }
+    }
+    else if(popStat<0.10){
+        try {
+            summary = await Summary.findOne({name:"musicSnob"}).exec();
+            
+
+        } catch (err){
+            console.error(err);
+        }
+    }
+    return summary;
+}
+
+export const startAuthenticatedSession = (req, user, cb) => {
+    req.session.regenerate((err) => {
+      if (!err) {
+        req.session.user = user;
+      } else {
+        console.err(err);
+      }
+      cb(err);
+    });
+  };
+  
+export const endAuthenticatedSession = (req, cb) => {
+    req.session.destroy((err) => { cb(err); });
+};
+  
+export const login = (userData, authToken, callback) => {
+    const username = userData.display_name;
+    User.findOne({username:username},async (err, result) => {
+        if(result){
+          console.log("USER HAS ALREADY LOGGED IN");
+          const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",authToken);
+          const topTracks = response.items;
+          const popStat = getPopularityStat(topTracks);
+          const summary = pickSummary(popStat);
+          //update stats on each login
+          result.authToken = authToken;
+          result.stats.obscurity = popStat;
+          result.summary = summary._id;
+          callback(result);
+        }
+        else if (err){
+            console.err(err);
+        }
+        else{ //create user
+            const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",authToken);
+            const topTracks = response.items;
+            const popStat = getPopularityStat(topTracks);
+            const summary = pickSummary(popStat);
+            
+            const newUser = new User({
+                username: userData.display_name,
+                authToken: authToken,
+                stats: {obscurity: popStat},
+                summary: summary._id
+            });
+            newUser.save(function(err,user){
+                if(err){
+                    console.error(err);
+                  }
+                else{
+                    callback(user);
+                }
+            })
+        }
+      });
+    
+  };
+
+export const authRequired = authRequiredPaths => {
+    return (req, res, next) => {
+      if(authRequiredPaths.includes(req.path)) {
+        if(!req.session.user) {
+          res.redirect('/'); 
+        } else {
+          next(); 
+        }
+      } else {
+        next(); 
+      }
+    };
+  };
+
+
 
 
