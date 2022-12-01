@@ -7,10 +7,8 @@ const UserSchema = new mongoose.Schema({
     bio: {type:String},
     favoriteAlbums: {first: String, second: String, 
       third: String, fourth: String, fifth: String},
-    stats: Object,
-    ranking: [{name: String, rank: Number}],
-    summary:  { type: mongoose.Schema.Types.ObjectId, ref: 'Summary' },
-    message: String
+    stats: {obscurity: Number},
+    summary:  { type: mongoose.Schema.Types.ObjectId, ref: 'Summary' }
 });
 
 const SummarySchema = new mongoose.Schema({
@@ -18,16 +16,9 @@ const SummarySchema = new mongoose.Schema({
   description: String
 });
 
-//leaderboard
-const LeaderboardSchema = new mongoose.Schema({
-  name: String,
-  users: [{username: String, stat: Number, rank: Number}]
-});
-
 UserSchema.plugin(mongooseSlugPlugin,{tmpl: '<%=username%>'});
 
 mongoose.model('User', UserSchema);
 mongoose.model('Summary', SummarySchema);
-mongoose.model('Leaderboard', LeaderboardSchema);
 
 mongoose.connect('mongodb+srv://joshforlenza:8oOo4Kg8YptJUNPa@cluster0.8vwdo6a.mongodb.net/?retryWrites=true&w=majority');
