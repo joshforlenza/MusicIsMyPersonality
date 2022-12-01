@@ -137,7 +137,7 @@ export const login = (userData, authToken, callback) => {
     User.findOne({username:username},async (err, result) => {
         if(result){
           console.log("USER HAS ALREADY LOGGED IN");
-          const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",authToken);
+          const response = await useAccessToken("https://api.spotify.com/v1/me/top/tracks",authToken);
           const topTracks = response.items;
           const popStat = getPopularityStat(topTracks);
           const summary = pickSummary(popStat);
@@ -151,7 +151,7 @@ export const login = (userData, authToken, callback) => {
             console.err(err);
         }
         else{ //create user
-            const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",authToken);
+            const response = await useAccessToken("https://api.spotify.com/v1/me/top/tracks",authToken);
             const topTracks = response.items;
             const popStat = getPopularityStat(topTracks);
             const summary = pickSummary(popStat);
