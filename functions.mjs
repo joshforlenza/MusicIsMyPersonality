@@ -141,7 +141,8 @@ export const login = (userData, authToken, callback) => {
           const response = await useAccessToken("https://api.spotify.com/v1/me/top/tracks",authToken);
           const topTracks = response.items;
           const popStat = getPopularityStat(topTracks);
-          const summary = pickSummary(popStat);
+          const summary = await pickSummary(popStat);
+          console.log(summary);
           //update stats on each login
           result.authToken = authToken;
           result.stats.obscurity = popStat;
@@ -156,7 +157,7 @@ export const login = (userData, authToken, callback) => {
             const response = await useAccessToken("https://api.spotify.com/v1/me/top/tracks",authToken);
             const topTracks = response.items;
             const popStat = getPopularityStat(topTracks);
-            const summary = pickSummary(popStat);
+            const summary = await pickSummary(popStat);
             
             const newUser = new User({
                 username: userData.display_name,
