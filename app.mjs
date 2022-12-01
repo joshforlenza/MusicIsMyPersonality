@@ -27,7 +27,6 @@ const sessionOptions = {
 const stateKey = 'spotify_auth_state';
 
 const User = mongoose.model('User');
-const Leaderboard = mongoose.model('Leaderboard');
 const Summary = mongoose.model('Summary');
 
 app.set('view engine', 'hbs');
