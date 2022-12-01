@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import mongoose from 'mongoose';
 
 const User = mongoose.model('User');
+const Summary = mongoose.model('Summary');
 
   /**
  * Generates a random string containing numbers and letters
