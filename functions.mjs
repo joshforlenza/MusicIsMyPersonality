@@ -142,7 +142,6 @@ export const login = (userData, authToken, callback) => {
           const topTracks = response.items;
           const popStat = getPopularityStat(topTracks);
           const summary = await pickSummary(popStat);
-          console.log(summary);
           //update stats on each login
           result.authToken = authToken;
           result.stats.obscurity = popStat;
