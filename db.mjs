@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
     bio: {type:String},
     favoriteAlbums: {first: String, second: String, 
       third: String, fourth: String, fifth: String},
-    stats: {},
+    stats: Object,
     ranking: [{name: String, rank: Number}],
     summary:  { type: mongoose.Schema.Types.ObjectId, ref: 'Summary' },
     message: String
@@ -17,7 +17,7 @@ const SummarySchema = new mongoose.Schema({
   name: String,
   description: String
 });
-//stats: [{name: String, percent: Number}],
+
 //leaderboard
 const LeaderboardSchema = new mongoose.Schema({
   name: String,

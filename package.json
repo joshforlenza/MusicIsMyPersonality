@@ -17,11 +17,13 @@
   },
   "homepage": "https://github.com/nyu-csci-ua-0467-001-002-fall-2022/final-project-joshforlenza#readme",
   "dependencies": {
+    "bootstrap": "^5.2.3",
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "handlebars": "^4.7.7",
     "hbs": "^4.2.0",
+    "jquery": "^3.6.1",
     "mongoose": "^6.7.1",
     "mongoose-slug-plugin": "^2.1.0",
     "node-fetch": "^3.2.10",

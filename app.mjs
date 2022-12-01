@@ -195,7 +195,6 @@ app.get('/summary', async (req, res) => {
             console.log("Summary: " + summary);
             try {
                 const user = await User.findOne({username:req.session.user.username}).exec();
-                //user.stats.push({name: "popularity", percent: popStat});
                 user.stats.popularity = popStat;
                 user.summary = summary._id;
                 console.log("Stat: " + popStat);
@@ -214,7 +213,10 @@ app.get('/summary', async (req, res) => {
 });
 
 app.get('/leaderboards', (req, res) => {
-    res.render('leaderboards');
+    User.find({}, function(err, users) {
+        console.log(users);
+        res.render('leaderboards', {users: users});
+     });
 });
 
 app.get('/profile/:slug', (req, res) => { 
