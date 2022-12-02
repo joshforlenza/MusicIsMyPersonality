@@ -1,0 +1,24 @@
+a.btn.btn-primary {
+    --bs-btn-padding-y: 2px; 
+    --bs-btn-padding-x: 100px; 
+    --bs-btn-font-size: 50px;
+    --bs-btn-bg: #11a416;
+    --bs-btn-hover-bg: #055208;
+  }
+
+.buttonContainer {
+    width:800px; 
+    margin:0 auto; 
+    height: 300px;   
+    display: flex;  
+    justify-content: center;  
+    align-items: center; 
+}
+
+.homeText{
+    display: flex;  
+    justify-content: center;  
+    align-items: center; 
+    position: relative;
+    top: 60px;
+}

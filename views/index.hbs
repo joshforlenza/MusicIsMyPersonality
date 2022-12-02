@@ -1,3 +1,6 @@
+<div class="homeText">
+<h1>What does your music say about you?</h1>
+</div>
 {{#if user}}
 	<br>
 	Hello {{user.username}}
@@ -6,8 +9,10 @@
 	<a href="/profile/{{user.slug}}">Profile</a>
 	<a href="/edit-profile">Edit Profile</a>
 	<a href="/leaderboards">Leaderboards</a>
-	
+
 	{{else}}
-	<a href="/login">Login</a>
-	<a href="/leaderboards">Leaderboards</a>
+	<div class="buttonContainer">
+		<a href="/login" class="btn btn-primary" tabindex="-1" role="button">Login Through Spotify</a>
+	</div>
+	
 	{{/if}}

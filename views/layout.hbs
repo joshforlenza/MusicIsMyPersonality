@@ -13,14 +13,34 @@
 <body>
 	<div id="outer">
 		<header>
-			<nav>
-				<span class="home-link"><a href="/">Home</a>
+			<nav class="navbar navbar-expand-lg bg-light">
+			<div class="container-fluid">
+				<span class="navbar-brand mb-0 h1">Music Is My Personality</span>
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+					<a class="nav-link active" aria-current="page" href="/">Home</a>
+					</li>
+					{{#if user}}
+					<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="/summary">Summary</a>
+					</li>
+					<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="/profile/{{user.slug}}">Profile</a>
+					</li>
+					<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="/edit-profile">Edit Profile</a>
+					</li>
+					{{/if}}
+					<li class="nav-item">
+					<a class="nav-link" href="/leaderboards">Leaderboards</a>
+					</li>
+				</ul>
+				</div>
+			</div>
 			</nav>
 		</header>
 
-		<h1>Music Is My Personality</h1>
 		<div class="content">
-			What does your music say about you?
 			{{{ body }}}
 		</div>
 	</div>
