@@ -66,8 +66,11 @@ export const useAccessToken = async (url, access_token) => {
     return data;
 }
 
-export const getPopularityStat = (tracks) => {
+export const getObscurityStat = (tracks) => {
     let sum = 0;
+    if(tracks.length===0){ //not enough data to produce stat
+        return NaN;
+    }
     for(let i=0; i<tracks.length; i++){
         const track = tracks[i];
         sum += track.popularity/100;
@@ -140,14 +143,22 @@ export const login = (userData, authToken, callback) => {
           console.log("USER HAS ALREADY LOGGED IN");
           const response = await useAccessToken("https://api.spotify.com/v1/me/top/tracks",authToken);
           const topTracks = response.items;
-          const popStat = getPopularityStat(topTracks);
-          const summary = await pickSummary(popStat);
-          //update stats on each login
-          result.authToken = authToken;
-          result.stats.obscurity = popStat;
-          result.summary = summary._id;
-          await result.save();
-          callback(result);
+          const popStat = getObscurityStat(topTracks);
+          if(popStat===NaN){
+            result.authToken = authToken;
+            await result.save();
+            callback(result);
+          }
+          else{
+            const summary = await pickSummary(popStat);
+            //update stats on each login
+            result.authToken = authToken;
+            result.stats.obscurity = popStat;
+            result.summary = summary._id;
+            await result.save();
+            callback(result);
+          }
+
         }
         else if (err){
             console.err(err);
@@ -155,23 +166,39 @@ export const login = (userData, authToken, callback) => {
         else{ //create user
             const response = await useAccessToken("https://api.spotify.com/v1/me/top/tracks",authToken);
             const topTracks = response.items;
-            const popStat = getPopularityStat(topTracks);
-            const summary = await pickSummary(popStat);
+            const popStat = getObscurityStat(topTracks);
+            if(popStat===NaN){
+                const newUser = new User({
+                  username: userData.display_name,
+                  authToken: authToken
+                });
+                newUser.save(function(err,user){
+                    if(err){
+                        console.error(err);
+                      }
+                    else{
+                        callback(user);
+                    }
+                })
+            }
+            else{
+                const summary = await pickSummary(popStat);
+                const newUser = new User({
+                    username: userData.display_name,
+                    authToken: authToken,
+                    stats: {obscurity: popStat},
+                    summary: summary._id
+                });
+                newUser.save(function(err,user){
+                    if(err){
+                        console.error(err);
+                      }
+                    else{
+                        callback(user);
+                    }
+                })
+            }
             
-            const newUser = new User({
-                username: userData.display_name,
-                authToken: authToken,
-                stats: {obscurity: popStat},
-                summary: summary._id
-            });
-            newUser.save(function(err,user){
-                if(err){
-                    console.error(err);
-                  }
-                else{
-                    callback(user);
-                }
-            })
         }
       });
     
