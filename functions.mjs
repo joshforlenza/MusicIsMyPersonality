@@ -68,25 +68,6 @@ export const useAccessToken = async (url, access_token) => {
     }
     return data;
 }
-/*
-export const getRecs = async (url, artistSeeds, genreSeeds, trackSeeds, access_token) => {
-  const result = await fetch(url+new URLSearchParams({
-    seed_artists: 'value',
-    seed_genres: 2,
-    seed_tracks: 2
-  }), {
-      headers: {
-          'Authorization' : 'Bearer ' + access_token 
-      }
-  });
-
-  const data = await result.json();
-  if(result.status!==200){
-    return "error";
-  }
-  return data;
-}
-*/
 
 
 export const createPlaylist = async (userID, access_token) => {
@@ -107,7 +88,7 @@ export const createPlaylist = async (userID, access_token) => {
 
 export const addToPlaylist = async (playlistID, tracks, access_token) => {
   const body = {"uris": tracks, "position": 0};
-  const result = await fetch('https://api.spotify.com/v1/users/'+playlistID+'/playlists', {
+  const result = await fetch('https://api.spotify.com/v1/playlists'+playlistID+'/tracks', {
         method: 'POST',
         headers: {
           'Authorization' : 'Bearer ' + access_token 
