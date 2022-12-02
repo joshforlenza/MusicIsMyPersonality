@@ -20,5 +20,39 @@ a.btn.btn-primary {
     justify-content: center;  
     align-items: center; 
     position: relative;
-    top: 60px;
+    top: 40px;
+}
+
+.profileLink{
+    color: black;
+}
+
+
+.bg-light {
+    --bs-bg-opacity: 1;
+    background-color: grey!important;
+}
+
+.summary{
+    display: flex;  
+    justify-content: center;  
+    align-items: center; 
+    position: relative;
+    top: 40px;
+}
+
+.topArtists{
+    display: flex;  
+    justify-content: center;  
+    align-items: center; 
+    position: relative;
+    top: 40px;
+}
+
+.topTracks{
+    display: flex;  
+    justify-content: center;  
+    align-items: center; 
+    position: relative;
+    top: 40px;
 }

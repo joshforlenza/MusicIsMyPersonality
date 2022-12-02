@@ -2,19 +2,24 @@
 <h3>{{message}}</h3>
 
 {{else}}
-<h3>Your Top Artists:</h3>
-{{#each topArtists}}
-    <div>{{this.name}}</div>
-{{/each}}
+<div class="topArtists">
+    <h3>Your Top Artists:</h3>
+    {{#each topArtists}}
+        <div>{{this.name}}</div>
+    {{/each}}
+</div>
 
-<h3>Your Top Tracks:</h3>
-{{#each topTracks}}
-    <div>{{this.name}}</div>
-{{/each}}
+<div class="summary">
+    <h3>Summary</h3>
+    {{summary}}
+</div>
 
-<h3>Summary</h3>
-{{summary}}
-
+<div class="topTracks">
+    <h3>Your Top Tracks:</h3>
+    {{#each topTracks}}
+        <div>{{this.name}}</div>
+    {{/each}}
+</div>
 <h3>Create A Playlist of Top Tracks?</h3>
 <form method="POST" action="">
 	<input type="submit" value="Yes">

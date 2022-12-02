@@ -8,7 +8,7 @@
         <tbody>
             {{#each users}}
             <tr>
-                <td>{{this.username}}</td>
+                <td><a class="profileLink" href="/profile/{{this.slug}}">{{this.username}}</a></td>
                 <td>{{this.stats.obscurity}}</td>
             </tr>
             {{/each}}
