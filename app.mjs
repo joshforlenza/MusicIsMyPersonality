@@ -152,7 +152,7 @@ app.get('/summary', async (req, res) => {
         
         const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/artists",req.session.user.authToken);
         if(response==="error"){ //get new token if current one expired
-            res.redirect('/refresh-token');
+            res.redirect('/refresh_token');
         }
         const topArtists = response.items;
         const response2 = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
@@ -182,18 +182,23 @@ app.post('/summary', async (req, res) => {
         const currUser = req.session.user;
         User.findOne({username: currUser.username}).exec(async (err, user) => {
             if(user && !err){
-                const res1 = await functions.useAccessToken("https://api.spotify.com/v1/recommendations", req.session.user.authToken);
-                if(res1==="error"){ //get new token if current one expired
-                    res.redirect('/refresh-token');
+                const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
+                if(response==="error"){ //get new token if current one expired
+                    res.redirect('/refresh_token');
                 }
-                const recs = res1.tracks;
-                const recURIs = recs.reduce(function(pV, cV, cI){
+                const topTracks = response2.items;
+
+                //const res1 = await functions.useAccessToken("https://api.spotify.com/v1/recommendations", req.session.user.authToken);
+                //const recs = res1.tracks;
+                //console.log(recs);
+                const trackURIs = topTracks.reduce(function(pV, cV, cI){
                     pV.push(cV.uri);
                     return pV;
                 }, [])
                 const res2 = await functions.createPlaylist(req.session.user.username, req.session.user.authToken);
                 console.log(res2);
                 await functions.addToPlaylist(res2.id, recURIs, req.session.user.authToken);
+                res.redirect('summary');
             }
             else{
                 res.render('error', {message: 'Internal Server Error'});

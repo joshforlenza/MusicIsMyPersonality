@@ -68,6 +68,25 @@ export const useAccessToken = async (url, access_token) => {
     }
     return data;
 }
+/*
+export const getRecs = async (url, artistSeeds, genreSeeds, trackSeeds, access_token) => {
+  const result = await fetch(url+new URLSearchParams({
+    seed_artists: 'value',
+    seed_genres: 2,
+    seed_tracks: 2
+  }), {
+      headers: {
+          'Authorization' : 'Bearer ' + access_token 
+      }
+  });
+
+  const data = await result.json();
+  if(result.status!==200){
+    return "error";
+  }
+  return data;
+}
+*/
 
 
 export const createPlaylist = async (userID, access_token) => {
