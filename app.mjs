@@ -248,6 +248,7 @@ app.post('/edit-profile', (req, res) => {
             if(user && !err){
                 if (req.body!={}){
                     console.log(req.body);
+                    /*
                     if(req.body.bio!=''){
                         user.bio = req.body.bio;
                     }
@@ -268,7 +269,13 @@ app.post('/edit-profile', (req, res) => {
                             user.favoriteAlbums.fifth = req.body.favoriteAlbum5;
                         }
                     }
-                    
+                    */
+                    user.bio = req.body.bio;
+                    user.favoriteAlbums.first = req.body.favoriteAlbum1;
+                    user.favoriteAlbums.second = req.body.favoriteAlbum2;
+                    user.favoriteAlbums.third = req.body.favoriteAlbum3;
+                    user.favoriteAlbums.fourth = req.body.favoriteAlbum4;
+                    user.favoriteAlbums.fifth = req.body.favoriteAlbum5;
 
                     user.save(function(err,user){
                         if(err){
