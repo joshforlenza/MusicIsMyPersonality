@@ -157,7 +157,7 @@ export const endAuthenticatedSession = (req, cb) => {
 };
   
 export const login = (userData, authToken, callback) => {
-    const username = userData.display_name;
+    const username = userData.id;
     User.findOne({username:username},async (err, result) => {
         if(result){
           console.log("USER HAS ALREADY LOGGED IN");
