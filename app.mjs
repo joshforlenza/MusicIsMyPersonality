@@ -199,7 +199,8 @@ app.post('/summary', async (req, res) => {
                 console.log("URIs: "+trackURIs);
                 const res2 = await functions.createPlaylist(req.session.user.username, req.session.user.authToken);
                 //console.log(res2);
-                await functions.addToPlaylist(res2.id, trackURIs, req.session.user.authToken);
+                const res3 = await functions.addToPlaylist(res2.id, trackURIs, req.session.user.authToken);
+                console.log(res3);
                 res.redirect('/summary');
             }
             else{
