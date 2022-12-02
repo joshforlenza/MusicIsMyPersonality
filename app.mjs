@@ -116,6 +116,7 @@ app.get('/callback', async function(req, res) {
             functions.startAuthenticatedSession(req, newUser, (err) => {
                 if (!err) {
                     console.log(req.session.user);
+                    req.session.refresh_token = refresh_token;
                     res.redirect('/');
                 } else {
                      //TODO
@@ -130,18 +131,20 @@ app.get('/callback', async function(req, res) {
   
 app.get('/refresh_token', async function(req, res) {
     // requesting access token from refresh token
-    const refresh_token = req.query.refresh_token;
+    const refresh_token = req.session.refresh_token;
     const data = await functions.getTokenWithRefresh(client_id, client_secret, refresh_token);
     console.log(data);
     const access_token = data.access_token;
-    res.send({
-        'access_token': access_token
-    });
+    const user = await User.findOne({username:username}).exec();
+    user.authToken = access_token;
+    await user.save();
+    res.redirect('/');
 
 });
 
 app.get('/summary', async (req, res) => {
     if(req.session.user){
+        
         const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/artists",req.session.user.authToken);
         const topArtists = response.items;
         const response2 = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
