@@ -247,7 +247,6 @@ app.post('/edit-profile', (req, res) => {
         User.findOne({username: currUser.username}).exec((err, user) => {
             if(user && !err){
                 if (req.body!={}){
-                    console.log(req.body);
                     
                     if(typeof (req.body.bio)!=='undefined'){
                         user.bio = req.body.bio;
@@ -266,11 +265,7 @@ app.post('/edit-profile', (req, res) => {
                     }
                     if(typeof (req.body.favoriteAlbum1)!=='undefined'){
                         user.favoriteAlbums.fifth = req.body.favoriteAlbum5;
-                    }
-                    console.log(req.body.bio);
-                    console.log(req.body.favoriteAlbum3);
-                    console.log(req.body.favoriteAlbum4);
-                    
+                    }            
 
                     user.save(function(err,user){
                         if(err){
