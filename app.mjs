@@ -249,22 +249,22 @@ app.post('/edit-profile', (req, res) => {
                 if (req.body!={}){
                     console.log(req.body);
                     
-                    if(req.body.bio!==undefined){
+                    if(typeof (req.body.bio)!=='undefined'){
                         user.bio = req.body.bio;
                     }
-                    if(req.body.favoritealbum1!==undefined){
+                    if(typeof (req.body.favoritealbum1)!=='undefined'){
                         user.favoriteAlbums.first = req.body.favoriteAlbum1;
                     }
-                    if(req.body.favoritealbum2!==undefined){
+                    if(typeof (req.body.favoritealbum1)!=='undefined'){
                         user.favoriteAlbums.second = req.body.favoriteAlbum2;
                     }
-                    if(req.body.favoritealbum3!==undefined){
+                    if(typeof (req.body.favoritealbum1)!=='undefined'){
                         user.favoriteAlbums.third = req.body.favoriteAlbum3;
                     }
-                    if(req.body.favoritealbum4!==undefined){
+                    if(typeof (req.body.favoritealbum1)!=='undefined'){
                         user.favoriteAlbums.fourth = req.body.favoriteAlbum4;
                     }
-                    if(req.body.favoritealbum5!==undefined){
+                    if(typeof (req.body.favoritealbum1)!=='undefined'){
                         user.favoriteAlbums.fifth = req.body.favoriteAlbum5;
                     }
                     console.log(req.body.bio);
