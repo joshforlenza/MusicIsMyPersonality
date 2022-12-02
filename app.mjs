@@ -137,13 +137,13 @@ app.get('/refresh_token', async function(req, res) {
     const access_token = data.access_token;
     try {
         const user = await User.findOne({username:username}).exec();
+        user.authToken = access_token;
+        await user.save();
+        res.redirect('/');
     } catch (err) {
         res.render('error', {message: 'Internal Server Error'});
     }
     
-    user.authToken = access_token;
-    await user.save();
-    res.redirect('/');
 
 });
 
@@ -248,22 +248,22 @@ app.post('/edit-profile', (req, res) => {
             if(user && !err){
                 if (req.body!={}){
                     console.log(req.body);
-                    if(req.body.bio!=''){
+                    if(req.body.hasOwnProperty("bio")){
                         user.bio = req.body.bio;
                     }
-                    if(req.body.favoritealbum1!=""){
+                    if(req.body.hasOwnProperty("favoritealbum1")){
                         user.favoriteAlbums.first = req.body.favoriteAlbum1;
                     }
-                    if(req.body.favoritealbum2!=""){
+                    if(req.body.hasOwnProperty("favoritealbum2")){
                         user.favoriteAlbums.second = req.body.favoriteAlbum2;
                     }
-                    if(req.body.favoritealbum3!=""){
+                    if(req.body.hasOwnProperty("favoritealbum3")){
                         user.favoriteAlbums.third = req.body.favoriteAlbum3;
                     }
-                    if(req.body.favoritealbum4!=""){
+                    if(req.body.hasOwnProperty("favoritealbum4")){
                         user.favoriteAlbums.fourth = req.body.favoriteAlbum4;
                     }
-                    if(req.body.favoritealbum5!=""){
+                    if(req.body.hasOwnProperty("favoritealbum5")){
                         user.favoriteAlbums.fifth = req.body.favoriteAlbum5;
                     }
 
