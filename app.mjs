@@ -183,24 +183,18 @@ app.post('/summary', async (req, res) => {
         User.findOne({username: currUser.username}).exec(async (err, user) => {
             if(user && !err){
                 const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
-                //console.log(response);
                 if(response==="error"){ //get new token if current one expired
                     res.redirect('/refresh_token');
                 }
-                const topTracks = response.items;
 
-                //const res1 = await functions.useAccessToken("https://api.spotify.com/v1/recommendations", req.session.user.authToken);
-                //const recs = res1.tracks;
-                //console.log(recs);
+                const topTracks = response.items;
                 const trackURIs = topTracks.reduce(function(pV, cV, cI){
                     pV.push(cV.uri);
                     return pV;
                 }, []);
-                console.log("URIs: "+trackURIs);
+
                 const res2 = await functions.createPlaylist(req.session.user.username, req.session.user.authToken);
-                //console.log(res2);
-                const res3 = await functions.addToPlaylist(res2.id, trackURIs, req.session.user.authToken);
-                console.log(res3);
+                await functions.addToPlaylist(res2.id, trackURIs, req.session.user.authToken);
                 res.redirect('/summary');
             }
             else{
