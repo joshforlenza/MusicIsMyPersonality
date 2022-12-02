@@ -107,7 +107,7 @@ export const createPlaylist = async (userID, access_token) => {
 
 export const addToPlaylist = async (playlistID, tracks, access_token) => {
   const body = {"uris": tracks, "position": 0};
-  const result = await fetch('https://api.spotify.com/v1/users/'+userID+'/playlists', {
+  const result = await fetch('https://api.spotify.com/v1/users/'+playlistID+'/playlists', {
         method: 'POST',
         headers: {
           'Authorization' : 'Bearer ' + access_token 
