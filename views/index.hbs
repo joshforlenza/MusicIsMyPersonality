@@ -2,10 +2,12 @@
 <h1>What does your music say about you?</h1>
 </div>
 {{#if user}}
-	<a href="/summary" class="btn btn-primary" tabindex="-1" role="button">Generate Summary</a>
+	<div class="buttonContainer">
+		<a href="/summary" class="btn btn-primary" tabindex="-1" role="button">Generate Summary</a>
+	</div>
 	{{else}}
 	<div class="buttonContainer">
 		<a href="/login" class="btn btn-primary" tabindex="-1" role="button">Login Through Spotify</a>
 	</div>
 	
-	{{/if}}
+{{/if}}

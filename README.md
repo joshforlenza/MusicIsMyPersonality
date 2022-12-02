@@ -15,17 +15,18 @@ The application will store Users, Summaries, and Leaderboard
 * users will have a list of stats that is calculated 
   by comparing their library to the most popular music on spotify, 
   a list of rankings for each stat, and a summary based on the stats.
-* summaries will contain a string have a funny response to the user's data.
-* leaderboards will contain an array of objects containing a username, stat, and rank.
+* summaries will contain a string have a funny response to the user's data..
 
 An Example User:
 
 ```javascript
 {
   username: "joshforlenza",
-  hash:,// a password hash
+  spotifyID:, // id used for getting user data from Spotify API
+  authToken:, // String used for Spotify authentication
+  bio:, // an object containing a user bio
+  favoriteAlbums:, // an object with favoriteAlbums as keys and String names as values
   stats:, // an array of objects with stat type as key and a percent as value
-  ranking: // an array of objects with ranking type as key and rank as value
   summary: //reference to a Summary object
 }
 ```
@@ -34,26 +35,15 @@ An Example Summary:
 
 ```javascript
 {
-  name: "Music Snob",
+  name: "musicSnob",
   description: "It's obvious that you try way too hard to exclusively listen to underground music. Do you even enjoy listening to this stuff? Sorry to break it to you but no one is going to like you better for knowing about these bands no one has ever heard of."
 }
 ```
 
-An Example Leaderboard:
-
-```javascript
-{
-  name: "Most Obscure Users",
-  users: [ //array contains objects with username prop, stat prop, and rank prop
-    { name: "John Smith", stat: 0.1, rank: 1},
-    { name: "Tom23", stat: 0.3, rank: 2}
-  ]
-}
-```
 
 
 
-## [Link to Commented First Draft Schema](db.mjs) 
+## [Link to Schema](db.mjs) 
 
 ## Wireframes
 
@@ -78,6 +68,7 @@ An Example Leaderboard:
 1. as a Spotify user, I can log in to the site
 2. as a user, I can look at a summary of my music library
 3. as a user, I can look at leaderboards of other users
+4. as a user, I can create a profile page and look at other profile pages
 
 ## Research Topics
 
@@ -101,7 +92,7 @@ An Example Leaderboard:
 10 points total out of 8 required points
 
 
-## [Link to Initial Main Project File](app.mjs) 
+## [Link to Main Project File](app.mjs) 
 
 ## Annotations / References Used
 

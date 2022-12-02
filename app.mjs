@@ -193,8 +193,9 @@ app.post('/summary', async (req, res) => {
                     return pV;
                 }, []);
 
-                const res2 = await functions.createPlaylist(req.session.user.spotifyID, req.session.user.authToken);
-                await functions.addToPlaylist(res2.id, trackURIs, req.session.user.authToken);
+                //const res2 = await functions.createPlaylist(req.session.user.spotifyID, req.session.user.authToken);
+                //await functions.addToPlaylist(res2.id, trackURIs, req.session.user.authToken);
+                await functions.createPlaylist(req.session.user.spotifyID, functions.addToPlaylist, trackURIs, req.session.user.authToken);
                 res.redirect('/summary');
             }
             else{
