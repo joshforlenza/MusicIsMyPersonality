@@ -69,6 +69,23 @@ export const useAccessToken = async (url, access_token) => {
     return data;
 }
 
+
+export const createPlaylist = async (userID, access_token) => {
+  const body = {"name": "New Playlist",
+  "description": "New playlist description",
+  "public": false};
+  const result = await fetch('https://api.spotify.com/v1/users/'+userID+'/playlists', {
+        method: 'POST',
+        headers: {
+          'Authorization' : 'Bearer ' + access_token 
+        },
+        body: JSON.stringify(body)
+    });
+
+    const data = await result.json();
+    return data;
+}
+
 export const getObscurityStat = (tracks) => {
     let sum = 0;
     if(tracks.length===0){ //not enough data to produce stat
@@ -172,7 +189,7 @@ export const login = (userData, authToken, callback) => {
             const popStat = getObscurityStat(topTracks);
             if(popStat===NaN){
                 const newUser = new User({
-                  username: userData.display_name,
+                  username: userData.id,
                   authToken: authToken
                 });
                 newUser.save(function(err,user){
@@ -187,7 +204,7 @@ export const login = (userData, authToken, callback) => {
             else{
                 const summary = await pickSummary(popStat);
                 const newUser = new User({
-                    username: userData.display_name,
+                    username: userData.id,
                     authToken: authToken,
                     stats: {obscurity: popStat},
                     summary: summary._id

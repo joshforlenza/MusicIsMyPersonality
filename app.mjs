@@ -177,6 +177,29 @@ app.get('/summary', async (req, res) => {
     }
 });
 
+app.post('/summary', async (req, res) => {
+    if(req.session.user){
+        const currUser = req.session.user;
+        User.findOne({username: currUser.username}).exec((err, user) => {
+            if(user && !err){
+                const res1 = functions.useAccessToken("https://api.spotify.com/v1/recommendations", req.session.user.authToken);
+                if(res1==="error"){ //get new token if current one expired
+                    res.redirect('/refresh-token');
+                }
+                const res2 = functions.createPlaylist(req.session.user.username, req.session.user.authToken);
+                console.log(res2);
+
+            }
+            else{
+                res.render('error', {message: 'Internal Server Error'});
+            }
+           });
+    }
+    else{
+      res.redirect("/");
+    }
+});
+
 app.get('/leaderboards', (req, res) => {
     User.find({}, function(err, users) {
         console.log(users);
@@ -217,6 +240,7 @@ app.post('/edit-profile', (req, res) => {
         User.findOne({username: currUser.username}).exec((err, user) => {
             if(user && !err){
                 if (req.body!={}){
+                    console.log(req.body);
                     if(req.body.bio!=''){
                         user.bio = req.body.bio;
                     }
