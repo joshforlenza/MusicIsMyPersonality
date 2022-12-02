@@ -183,10 +183,11 @@ app.post('/summary', async (req, res) => {
         User.findOne({username: currUser.username}).exec(async (err, user) => {
             if(user && !err){
                 const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
+                console.log(response);
                 if(response==="error"){ //get new token if current one expired
                     res.redirect('/refresh_token');
                 }
-                const topTracks = response2.items;
+                const topTracks = response.items;
 
                 //const res1 = await functions.useAccessToken("https://api.spotify.com/v1/recommendations", req.session.user.authToken);
                 //const recs = res1.tracks;
