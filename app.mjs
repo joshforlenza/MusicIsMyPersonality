@@ -107,7 +107,6 @@ app.get('/callback', async function(req, res) {
         res.clearCookie(stateKey);
 
         const data = await functions.getToken(client_id, client_secret, code, redirect_uri);
-        console.log(data);
         const access_token = data.access_token
         const refresh_token = data.refresh_token
 
@@ -124,7 +123,6 @@ app.get('/callback', async function(req, res) {
             });
         }
         const userData = await functions.useAccessToken('https://api.spotify.com/v1/me', access_token);
-        console.log(userData);
         functions.login(userData, access_token, success);
     }
   });
@@ -133,7 +131,6 @@ app.get('/refresh_token', async function(req, res) {
     // requesting access token from refresh token
     const refresh_token = req.session.refresh_token;
     const data = await functions.getTokenWithRefresh(client_id, client_secret, refresh_token);
-    console.log(data);
     const access_token = data.access_token;
     try {
         const user = await User.findOne({username:username}).exec();
@@ -141,6 +138,7 @@ app.get('/refresh_token', async function(req, res) {
         await user.save();
         res.redirect('/');
     } catch (err) {
+        console.error(err);
         res.render('error', {message: 'Internal Server Error'});
     }
     
@@ -163,11 +161,11 @@ app.get('/summary', async (req, res) => {
         else{
             try {
                 const summary = await Summary.findById(req.session.user.summary).exec();
-                console.log(summary);
                 res.render('summary', {topArtists: topArtists, topTracks: topTracks, summary: summary.description});
 
             } catch (err){
                 console.error(err);
+                res.render('error', {message: 'Internal Server Error'});
             }
         }
         
@@ -208,7 +206,6 @@ app.post('/summary', async (req, res) => {
 
 app.get('/leaderboards', (req, res) => {
     User.find({}, function(err, users) {
-        console.log(users);
         res.render('leaderboards', {users: users});
      });
 });
@@ -288,34 +285,3 @@ app.post('/edit-profile', (req, res) => {
 
 
 app.listen(process.env.PORT || 3000);
-
-/*
-forms:
-Create form that allows user to pick 5 favorite artists and albums
-Research topics:
-Figure out how to get top tracks and display
-
-Maybe change idea towards a Letterboxd for Spotify that is more focused 
-on user profiles than stats
-
-Calculate User's stats:
-Get popularity stat for each of top tracks
-Sum and divide by number of top tracks
-
-Create unit tests for summaries
-Make sure it properly dispays for each percent of popularity
-
-Summaries:
-0-10%:
-
-10-30%:
-
-40-60%:
-
-70>%:
-I don't even know if I can call this "music taste".
-Do you exclusively listen to the top 50 charts?
-There's not a single song here that 
-
-Create error handling for expired auth token
-*/
