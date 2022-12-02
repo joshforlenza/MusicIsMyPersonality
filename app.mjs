@@ -252,19 +252,19 @@ app.post('/edit-profile', (req, res) => {
                     if(typeof (req.body.bio)!=='undefined'){
                         user.bio = req.body.bio;
                     }
-                    if(typeof (req.body.favoritealbum1)!=='undefined'){
+                    if(typeof (req.body.favoriteAlbum1)!=='undefined'){
                         user.favoriteAlbums.first = req.body.favoriteAlbum1;
                     }
-                    if(typeof (req.body.favoritealbum1)!=='undefined'){
+                    if(typeof (req.body.favoriteAlbum1)!=='undefined'){
                         user.favoriteAlbums.second = req.body.favoriteAlbum2;
                     }
-                    if(typeof (req.body.favoritealbum1)!=='undefined'){
+                    if(typeof (req.body.favoriteAlbum1)!=='undefined'){
                         user.favoriteAlbums.third = req.body.favoriteAlbum3;
                     }
-                    if(typeof (req.body.favoritealbum1)!=='undefined'){
+                    if(typeof (req.body.favoriteAlbum1)!=='undefined'){
                         user.favoriteAlbums.fourth = req.body.favoriteAlbum4;
                     }
-                    if(typeof (req.body.favoritealbum1)!=='undefined'){
+                    if(typeof (req.body.favoriteAlbum1)!=='undefined'){
                         user.favoriteAlbums.fifth = req.body.favoriteAlbum5;
                     }
                     console.log(req.body.bio);
