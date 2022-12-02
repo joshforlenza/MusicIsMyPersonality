@@ -249,7 +249,6 @@ app.post('/edit-profile', (req, res) => {
                 if (req.body!={}){
                     console.log(req.body);
                     
-                    
                     if(req.body.bio!==undefined){
                         user.bio = req.body.bio;
                     }
@@ -268,6 +267,10 @@ app.post('/edit-profile', (req, res) => {
                     if(req.body.favoritealbum5!==undefined){
                         user.favoriteAlbums.fifth = req.body.favoriteAlbum5;
                     }
+                    console.log(req.body.bio);
+                    console.log(req.body.favoriteAlbum3);
+                    console.log(req.body.favoriteAlbum4);
+                    
 
                     user.save(function(err,user){
                         if(err){
