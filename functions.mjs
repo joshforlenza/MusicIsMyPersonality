@@ -72,8 +72,22 @@ export const useAccessToken = async (url, access_token) => {
 
 export const createPlaylist = async (userID, access_token) => {
   const body = {"name": "New Playlist",
-  "description": "New playlist description",
+  "description": "New playlist",
   "public": false};
+  const result = await fetch('https://api.spotify.com/v1/users/'+userID+'/playlists', {
+        method: 'POST',
+        headers: {
+          'Authorization' : 'Bearer ' + access_token 
+        },
+        body: JSON.stringify(body)
+    });
+
+    const data = await result.json();
+    return data;
+}
+
+export const addToPlaylist = async (playlistID, tracks, access_token) => {
+  const body = {"uris": tracks, "position": 0};
   const result = await fetch('https://api.spotify.com/v1/users/'+userID+'/playlists', {
         method: 'POST',
         headers: {

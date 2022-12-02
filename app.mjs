@@ -180,15 +180,20 @@ app.get('/summary', async (req, res) => {
 app.post('/summary', async (req, res) => {
     if(req.session.user){
         const currUser = req.session.user;
-        User.findOne({username: currUser.username}).exec((err, user) => {
+        User.findOne({username: currUser.username}).exec(async (err, user) => {
             if(user && !err){
-                const res1 = functions.useAccessToken("https://api.spotify.com/v1/recommendations", req.session.user.authToken);
+                const res1 = await functions.useAccessToken("https://api.spotify.com/v1/recommendations", req.session.user.authToken);
                 if(res1==="error"){ //get new token if current one expired
                     res.redirect('/refresh-token');
                 }
-                const res2 = functions.createPlaylist(req.session.user.username, req.session.user.authToken);
+                const recs = res1.tracks;
+                const recURIs = recs.reduce(function(pV, cV, cI){
+                    pV.push(cV.uri);
+                    return pV;
+                }, [])
+                const res2 = await functions.createPlaylist(req.session.user.username, req.session.user.authToken);
                 console.log(res2);
-
+                await functions.addToPlaylist(res2.id, recURIs, req.session.user.authToken);
             }
             else{
                 res.render('error', {message: 'Internal Server Error'});
