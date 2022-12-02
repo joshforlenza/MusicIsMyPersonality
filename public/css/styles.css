@@ -40,3 +40,10 @@ a.btn.btn-primary {
     position: relative;
     top: 20px;
 }
+
+.col-sm {
+    border-radius: 25px;
+    background: #11a416;
+    padding: 20px;
+}
+
