@@ -33,26 +33,9 @@ a.btn.btn-primary {
     background-color: grey!important;
 }
 
-.summary{
+.createPlaylist{
     display: flex;  
     justify-content: center;  
     align-items: center; 
     position: relative;
-    top: 40px;
-}
-
-.topArtists{
-    display: flex;  
-    justify-content: center;  
-    align-items: center; 
-    position: relative;
-    top: 40px;
-}
-
-.topTracks{
-    display: flex;  
-    justify-content: center;  
-    align-items: center; 
-    position: relative;
-    top: 40px;
 }
