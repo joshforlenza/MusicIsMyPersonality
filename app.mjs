@@ -195,10 +195,11 @@ app.post('/summary', async (req, res) => {
                     pV.push(cV.uri);
                     return pV;
                 }, [])
+                console.log(trackURIs);
                 const res2 = await functions.createPlaylist(req.session.user.username, req.session.user.authToken);
                 console.log(res2);
-                await functions.addToPlaylist(res2.id, recURIs, req.session.user.authToken);
-                res.redirect('summary');
+                await functions.addToPlaylist(res2.id, trackURIs, req.session.user.authToken);
+                res.redirect('/summary');
             }
             else{
                 res.render('error', {message: 'Internal Server Error'});
