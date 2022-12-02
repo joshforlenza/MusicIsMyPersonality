@@ -84,7 +84,6 @@ export const createPlaylist = async (userID, addToPlaylist, tracks, access_token
 
     const data = await result.json();
     await addToPlaylist(data.id, tracks, access_token);
-    //return data;
 }
 
 export const addToPlaylist = async (playlistID, tracks, access_token) => {
