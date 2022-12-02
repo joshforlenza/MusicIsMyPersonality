@@ -270,6 +270,7 @@ app.post('/edit-profile', (req, res) => {
                         }
                     }
                     */
+                    console.log(req.body.favoriteAlbum1);
                     user.bio = req.body.bio;
                     user.favoriteAlbums.first = req.body.favoriteAlbum1;
                     user.favoriteAlbums.second = req.body.favoriteAlbum2;
