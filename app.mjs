@@ -247,24 +247,24 @@ app.post('/edit-profile', (req, res) => {
         User.findOne({username: currUser.username}).exec((err, user) => {
             if(user && !err){
                 if (req.body!={}){
-                    console.log(req.body);
-                    if(req.body.hasOwnProperty("bio")){
-                        user.bio = req.body.bio;
+                    const data = JSON.parse(req.body);
+                    if(data.hasOwnProperty("bio")){
+                        user.bio = data.bio;
                     }
-                    if(req.body.hasOwnProperty("favoritealbum1")){
-                        user.favoriteAlbums.first = req.body.favoriteAlbum1;
+                    if(data.hasOwnProperty("favoritealbum1")){
+                        user.favoriteAlbums.first = data.favoriteAlbum1;
                     }
-                    if(req.body.hasOwnProperty("favoritealbum2")){
-                        user.favoriteAlbums.second = req.body.favoriteAlbum2;
+                    if(data.hasOwnProperty("favoritealbum2")){
+                        user.favoriteAlbums.second = data.favoriteAlbum2;
                     }
-                    if(req.body.hasOwnProperty("favoritealbum3")){
-                        user.favoriteAlbums.third = req.body.favoriteAlbum3;
+                    if(data.hasOwnProperty("favoritealbum3")){
+                        user.favoriteAlbums.third = data.favoriteAlbum3;
                     }
-                    if(req.body.hasOwnProperty("favoritealbum4")){
-                        user.favoriteAlbums.fourth = req.body.favoriteAlbum4;
+                    if(data.hasOwnProperty("favoritealbum4")){
+                        user.favoriteAlbums.fourth = data.favoriteAlbum4;
                     }
-                    if(req.body.hasOwnProperty("favoritealbum5")){
-                        user.favoriteAlbums.fifth = req.body.favoriteAlbum5;
+                    if(data.hasOwnProperty("favoritealbum5")){
+                        user.favoriteAlbums.fifth = data.favoriteAlbum5;
                     }
 
                     user.save(function(err,user){
