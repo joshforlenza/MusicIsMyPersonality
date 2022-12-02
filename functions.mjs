@@ -63,7 +63,9 @@ export const useAccessToken = async (url, access_token) => {
     });
 
     const data = await result.json();
-    console.log(result.status);
+    if(result.status!==200){
+      return "error";
+    }
     return data;
 }
 

@@ -119,7 +119,7 @@ app.get('/callback', async function(req, res) {
                     req.session.refresh_token = refresh_token;
                     res.redirect('/');
                 } else {
-                     //TODO
+                    res.render('error', {message: 'Internal Server Error'});
                 }
             });
         }
@@ -135,7 +135,12 @@ app.get('/refresh_token', async function(req, res) {
     const data = await functions.getTokenWithRefresh(client_id, client_secret, refresh_token);
     console.log(data);
     const access_token = data.access_token;
-    const user = await User.findOne({username:username}).exec();
+    try {
+        const user = await User.findOne({username:username}).exec();
+    } catch (err) {
+        res.render('error', {message: 'Internal Server Error'});
+    }
+    
     user.authToken = access_token;
     await user.save();
     res.redirect('/');
@@ -146,6 +151,9 @@ app.get('/summary', async (req, res) => {
     if(req.session.user){
         
         const response = await functions.useAccessToken("https://api.spotify.com/v1/me/top/artists",req.session.user.authToken);
+        if(response==="error"){ //get new token if current one expired
+            res.redirect('/refresh-token');
+        }
         const topArtists = response.items;
         const response2 = await functions.useAccessToken("https://api.spotify.com/v1/me/top/tracks",req.session.user.authToken);
         const topTracks = response2.items;
@@ -188,7 +196,7 @@ app.get('/profile/:slug', (req, res) => {
         
       }
       else{
-        //TODO
+        res.render('error', {message: 'Internal Server Error'});
       }
      });
      
@@ -239,7 +247,7 @@ app.post('/edit-profile', (req, res) => {
                 }
             }
             else{
-              //TODO
+                res.render('error', {message: 'Internal Server Error'});
             }
            });
     }
