@@ -248,35 +248,27 @@ app.post('/edit-profile', (req, res) => {
             if(user && !err){
                 if (req.body!={}){
                     console.log(req.body);
-                    /*
-                    if(req.body.bio!=''){
+                    
+                    if(req.body.bio!==undefined){
                         user.bio = req.body.bio;
                     }
                     else{
-                        if(req.body.favoritealbum1!=""){
+                        if(req.body.favoritealbum1!==undefined){
                             user.favoriteAlbums.first = req.body.favoriteAlbum1;
                         }
-                        if(req.body.favoritealbum2!=""){
+                        if(req.body.favoritealbum2!==undefined){
                             user.favoriteAlbums.second = req.body.favoriteAlbum2;
                         }
-                        if(req.body.favoritealbum3!=""){
+                        if(req.body.favoritealbum3!==undefined){
                             user.favoriteAlbums.third = req.body.favoriteAlbum3;
                         }
-                        if(req.body.favoritealbum4!=""){
+                        if(req.body.favoritealbum4!==undefined){
                             user.favoriteAlbums.fourth = req.body.favoriteAlbum4;
                         }
-                        if(req.body.favoritealbum5!=""){
+                        if(req.body.favoritealbum5!==undefined){
                             user.favoriteAlbums.fifth = req.body.favoriteAlbum5;
                         }
                     }
-                    */
-                    console.log(req.body.favoriteAlbum1);
-                    user.bio = req.body.bio;
-                    user.favoriteAlbums.first = req.body.favoriteAlbum1;
-                    user.favoriteAlbums.second = req.body.favoriteAlbum2;
-                    user.favoriteAlbums.third = req.body.favoriteAlbum3;
-                    user.favoriteAlbums.fourth = req.body.favoriteAlbum4;
-                    user.favoriteAlbums.fifth = req.body.favoriteAlbum5;
 
                     user.save(function(err,user){
                         if(err){
