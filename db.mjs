@@ -3,6 +3,7 @@ import mongooseSlugPlugin from 'mongoose-slug-plugin';
 
 const UserSchema = new mongoose.Schema({
     username: {type:String, unique: true, required: true},
+    spotifyID: {type:String, unique: true, required: true},
     authToken: {type:String, unique: true, required: true}, //used for Spotify auth
     bio: {type:String},
     favoriteAlbums: {first: String, second: String, 

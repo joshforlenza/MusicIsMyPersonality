@@ -171,7 +171,7 @@ export const endAuthenticatedSession = (req, cb) => {
 };
   
 export const login = (userData, authToken, callback) => {
-    const username = userData.id;
+    const username = userData.display_name;
     User.findOne({username:username},async (err, result) => {
         if(result){
           console.log("USER HAS ALREADY LOGGED IN");
@@ -203,7 +203,8 @@ export const login = (userData, authToken, callback) => {
             const popStat = getObscurityStat(topTracks);
             if(popStat===NaN){
                 const newUser = new User({
-                  username: userData.id,
+                  username: userData.display_name,
+                  spotifyID: userData.id,
                   authToken: authToken
                 });
                 newUser.save(function(err,user){
@@ -218,7 +219,8 @@ export const login = (userData, authToken, callback) => {
             else{
                 const summary = await pickSummary(popStat);
                 const newUser = new User({
-                    username: userData.id,
+                    username: userData.display_name,
+                    spotifyID: userData.id,
                     authToken: authToken,
                     stats: {obscurity: popStat},
                     summary: summary._id
