@@ -72,24 +72,22 @@ An Example Summary:
 
 ## Research Topics
 
-* (5 points) Spotify Web API
+* Spotify Web API
     * I'm going to be using Spotify API for user login and data
     * The API allows authentication of a user
     * Also it will give me the necessary user data to generate a summary based on the user's library
     * The API will also allow me to retrieve data on Spotify total content which will allow to generate user statistics 
     * see <code> https://developer.spotify.com/documentation/web-api/reference/#/</code> for documentation
-* (3 points) Mocha
+* Mocha
     * Unit testing
     * Will make testing my code easier
     * Will use it to ensure user summary is displayed correct
     * see <code> https://mochajs.org/</code> for documentation
-* (2 points) Boostrap
+* Bootstrap
     * CSS framework
     * I want to use this because I have no prior experience with CSS
     * I care about the aesthetic of the website, and I think will help me in creating an interesting theme 
     * see <code> https://getbootstrap.com/docs/5.2/getting-started/introduction/</code> for documentation
-
-10 points total out of 8 required points
 
 
 ## [Link to Main Project File](app.mjs) 
